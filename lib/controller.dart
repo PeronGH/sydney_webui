@@ -30,11 +30,6 @@ class Controller extends GetxController {
   bool get canSubmit => prompt.value.isNotEmpty && !isGenerating.value;
 
   // Methods
-  void _clearPrompt() {
-    prompt.value = '';
-    promptController.clear();
-  }
-
   @override
   void onInit() {
     super.onInit();
@@ -64,7 +59,7 @@ class Controller extends GetxController {
         type: Message.typeMessage,
         content: userPrompt));
 
-    _clearPrompt();
+    promptController.clear();
 
     try {
       await for (final event
@@ -109,10 +104,16 @@ class Controller extends GetxController {
 
   // Helper methods
   void _onGenerateProgress(String type, String content) {
-    if (!isGenerating.value) return;
-
     if (generatingType.value != type) {
       _saveGeneratedMessage();
+    }
+
+    switch (type) {
+      // remove duplicated contents
+      case Message.typeSuggestedResponses:
+      case Message.typeSearchResult:
+        if (generatingContent.value.startsWith(content)) return;
+        break;
     }
 
     generatingType.value = type;
