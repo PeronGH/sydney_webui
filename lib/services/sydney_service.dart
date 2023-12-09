@@ -7,45 +7,25 @@ class SydneyService {
   static const _defaultCookies = String.fromEnvironment("API_COOKIES");
 
   // Instance fields
-  var _baseUrl = () {
-    try {
-      return Uri.parse(_defaultBaseUrl);
-    } catch (_) {
-      return null;
-    }
-  }();
-  var _accessToken = _defaultAccessToken;
-  var _cookies = _defaultCookies;
+  var baseUrl = Uri.tryParse(_defaultBaseUrl);
+  var accessToken = _defaultAccessToken;
+  var cookies = _defaultCookies;
 
   Map<String, dynamic> _conversation = {};
 
   // Getters
-  Uri? get _createConversationUrl => _baseUrl?.resolve("/conversation/new");
-  Uri? get _askStreamUrl => _baseUrl?.resolve("/chat/stream");
+  Uri? get _createConversationUrl => baseUrl?.resolve("/conversation/new");
+  Uri? get _askStreamUrl => baseUrl?.resolve("/chat/stream");
   Map<String, String> get _authHeaders =>
-      {"Authorization": "Bearer $_accessToken"};
+      {"Authorization": "Bearer $accessToken"};
 
   // Helper Methods
   Future<void> _resetConversation() async {
     _conversation = await postAndDecodeJson(_createConversationUrl!,
-        data: {"cookies": _cookies}, headers: _authHeaders);
+        data: {"cookies": cookies}, headers: _authHeaders);
   }
 
   // Methods
-  SydneyService setBaseUrl(Uri baseUrl) {
-    _baseUrl = baseUrl;
-    return this;
-  }
-
-  SydneyService setAccessToken(String accessToken) {
-    _accessToken = accessToken;
-    return this;
-  }
-
-  SydneyService setCookies(String cookies) {
-    _cookies = cookies;
-    return this;
-  }
 
   Stream<MessageEvent> askStream(
       {required String prompt, required String context}) async* {

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sydney_webui/models/message.dart';
+import 'package:sydney_webui/services/sydney_service.dart';
 
 class Controller extends GetxController {
   // Constants
   static const String idMessageList = 'messageList';
+
+  // Services
+  final sydneyService = SydneyService();
 
   // Controllers
   final promptController = TextEditingController();
