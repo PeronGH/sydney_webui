@@ -16,8 +16,6 @@ class SydneyService {
   final cookies = ''.obs;
   final noSearch = false.obs;
 
-  Map<String, dynamic> _conversation = {};
-
   // Initializer
   SydneyService() {
     // Persist settings
@@ -47,23 +45,19 @@ class SydneyService {
       {"Authorization": "Bearer $accessToken"};
 
   // Helper Methods
-  Future<void> _resetConversation() async {
-    _conversation = await postAndDecodeJson(_createConversationUrl!,
+  Future<Map<String, dynamic>> _getConversation() async {
+    return postAndDecodeJson(_createConversationUrl!,
         data: {"cookies": cookies.value}, headers: _authHeaders);
   }
 
   // Methods
   Stream<MessageEvent> askStream(
       {required String prompt, required String context}) async* {
-    if (_conversation.isEmpty) {
-      await _resetConversation();
-    }
-
     yield* postJsonAndParseSse(_askStreamUrl!,
             data: {
               "prompt": prompt,
               "context": context,
-              "conversation": _conversation,
+              "conversation": await _getConversation(),
               "noSearch": noSearch.value
             },
             headers: _authHeaders)

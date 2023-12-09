@@ -30,16 +30,20 @@ class Controller extends GetxController {
   bool get canSubmit => prompt.value.isNotEmpty && !isGenerating.value;
 
   // Methods
+  void _clearPrompt() {
+    prompt.value = '';
+    promptController.clear();
+  }
+
   @override
   void onInit() {
     super.onInit();
 
-    // Sync prompt input with prompt reactive variable
+    // Update prompt reactive variable when prompt controller changes
     promptController.addListener(() {
       if (promptController.text == prompt.value) return;
       prompt.value = promptController.text;
     });
-    ever(prompt, (prompt) => promptController.text = prompt);
 
     // Update message list when messages changes
     ever(messages, (_) => update([idMessageList]));
@@ -60,7 +64,7 @@ class Controller extends GetxController {
         type: Message.typeMessage,
         content: userPrompt));
 
-    prompt.value = '';
+    _clearPrompt();
 
     try {
       await for (final event

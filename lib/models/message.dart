@@ -52,19 +52,19 @@ extension ToContext on List<Message> {
           type: Message.typeMessage,
           content: _
         ) =>
-          '[user](#message)\n${message.content}',
+          '[user](#message)\n${message.content.trim()}',
         Message(
           role: Message.roleAssistant,
           type: Message.typeMessage,
           content: _
         ) =>
-          '[assistant](#message)\n${message.content}',
+          '[assistant](#message)\n${message.content.trim()}',
         Message(
           role: Message.roleSystem,
           type: Message.typeAdditionalInstructions,
           content: _
         ) =>
-          '[system](#additional_instructions)\n${message.content}',
+          '[system](#additional_instructions)\n${message.content.trim()}',
         _ => ''
       };
     }).join('\n\n');
