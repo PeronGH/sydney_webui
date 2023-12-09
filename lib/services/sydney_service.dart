@@ -14,6 +14,7 @@ class SydneyService {
   final baseUrl = ''.obs;
   final accessToken = ''.obs;
   final cookies = ''.obs;
+  final noSearch = false.obs;
 
   Map<String, dynamic> _conversation = {};
 
@@ -26,11 +27,13 @@ class SydneyService {
     baseUrl.value = box.read('baseUrl') ?? _defaultBaseUrl;
     accessToken.value = box.read('accessToken') ?? _defaultAccessToken;
     cookies.value = box.read('cookies') ?? _defaultCookies;
+    noSearch.value = box.read('noSearch') ?? false;
 
     // Save settings when they change
     ever(baseUrl, (baseUrl) => box.write('baseUrl', baseUrl));
     ever(accessToken, (accessToken) => box.write('accessToken', accessToken));
     ever(cookies, (cookies) => box.write('cookies', cookies));
+    ever(noSearch, (noSearch) => box.write('noSearch', noSearch));
   }
 
   // Getters
@@ -60,7 +63,8 @@ class SydneyService {
             data: {
               "prompt": prompt,
               "context": context,
-              "conversation": _conversation
+              "conversation": _conversation,
+              "noSearch": noSearch.value
             },
             headers: _authHeaders)
         .asyncMap(

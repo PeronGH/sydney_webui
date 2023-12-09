@@ -12,6 +12,7 @@ class SettingsDialog extends StatelessWidget {
     var apiBaseUrl = controller.sydneyService.baseUrl.value;
     var apiAccessToken = controller.sydneyService.accessToken.value;
     var apiCookies = controller.sydneyService.cookies.value;
+    final noSearch = controller.sydneyService.noSearch.value.obs;
 
     return AlertDialog(
       title: const Text('Settings'),
@@ -41,6 +42,12 @@ class SettingsDialog extends StatelessWidget {
               ),
               onChanged: (value) => apiCookies = value,
             ),
+            const SizedBox(height: 8.0),
+            Obx(() => CheckboxListTile(
+                  title: const Text('Disable Search'),
+                  value: noSearch.value,
+                  onChanged: (value) => noSearch.value = value ?? false,
+                )),
           ],
         ),
       ),
@@ -57,6 +64,7 @@ class SettingsDialog extends StatelessWidget {
             controller.sydneyService.baseUrl.value = apiBaseUrl;
             controller.sydneyService.accessToken.value = apiAccessToken;
             controller.sydneyService.cookies.value = apiCookies;
+            controller.sydneyService.noSearch.value = noSearch.value;
             Get.back();
           },
         ),
