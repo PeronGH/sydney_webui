@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:sydney_webui/utils/http/common.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
