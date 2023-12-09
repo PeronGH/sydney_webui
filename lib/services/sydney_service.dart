@@ -27,10 +27,8 @@ class SydneyService {
 
   // Helper Methods
   Future<void> _resetConversation() async {
-    _conversation = await postJson(
-        url: _createConversationUrl!,
-        data: {"cookies": _cookies},
-        headers: _authHeaders);
+    _conversation = await postAndDecodeJson(_createConversationUrl!,
+        data: {"cookies": _cookies}, headers: _authHeaders);
   }
 
   // Methods
@@ -59,9 +57,3 @@ class SydneyService {
   }
 }
 
-class MessageEvent {
-  final String type;
-  final String content;
-
-  const MessageEvent(this.type, this.content);
-}
