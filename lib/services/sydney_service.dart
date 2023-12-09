@@ -21,7 +21,7 @@ class SydneyService {
 
   // Getters
   Uri? get _createConversationUrl => _baseUrl?.resolve("/conversation/new");
-  Uri? get _askStreamUrl => _baseUrl?.resolve("/api/ask/stream");
+  Uri? get _askStreamUrl => _baseUrl?.resolve("/chat/stream");
   Map<String, String> get _authHeaders =>
       {"Authorization": "Bearer $_accessToken"};
 
@@ -53,7 +53,12 @@ class SydneyService {
       await _resetConversation();
     }
 
-    // TODO: send request and parse SSE
+    yield* postJsonAndParseSse(_askStreamUrl!,
+        data: {
+          "prompt": prompt,
+          "context": context,
+          "conversation": _conversation
+        },
+        headers: _authHeaders);
   }
 }
-

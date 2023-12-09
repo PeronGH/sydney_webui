@@ -68,7 +68,7 @@ Stream<MessageEvent> postJsonAndParseSse(Uri url,
 
     // Check the status code for the response
     if (response.statusCode == HttpStatus.ok) {
-      String currentType = 'message'; // Default type if not specified
+      String currentType = '';
       String currentData = '';
 
       // Read the response as a stream of Server-Sent Events
@@ -80,8 +80,9 @@ Stream<MessageEvent> postJsonAndParseSse(Uri url,
           currentData = line.substring(5).trim();
         } else if (line.isEmpty) {
           // Emit the event when an empty line is encountered
+          if (currentType.isEmpty && currentData.isEmpty) continue;
           yield MessageEvent(currentType, currentData);
-          currentType = 'message'; // Reset type to default for the next event
+          currentType = ''; // Reset type to default for the next event
           currentData = '';
         }
       }
