@@ -14,17 +14,17 @@ class Controller extends GetxController {
   final promptController = TextEditingController();
 
   // Reactive variables
-  var isGenerating = false.obs;
-  var prompt = ''.obs;
-  var messages = <Message>[
+  final isGenerating = false.obs;
+  final prompt = ''.obs;
+  final messages = <Message>[
     Message(
         role: Message.roleSystem,
         type: Message.typeAdditionalInstructions,
         content: Message.defaultSystemMessage),
   ].obs;
 
-  var generatingType = ''.obs;
-  var generatingContent = ''.obs;
+  final generatingType = ''.obs;
+  final generatingContent = ''.obs;
 
   // Getters
   bool get canSubmit => prompt.value.isNotEmpty && !isGenerating.value;
