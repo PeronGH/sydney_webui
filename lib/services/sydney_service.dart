@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sydney_webui/utils/http.dart';
@@ -44,7 +46,7 @@ class SydneyService {
   // Helper Methods
   Future<void> _resetConversation() async {
     _conversation = await postAndDecodeJson(_createConversationUrl!,
-        data: {"cookies": cookies}, headers: _authHeaders);
+        data: {"cookies": cookies.value}, headers: _authHeaders);
   }
 
   // Methods
@@ -55,11 +57,13 @@ class SydneyService {
     }
 
     yield* postJsonAndParseSse(_askStreamUrl!,
-        data: {
-          "prompt": prompt,
-          "context": context,
-          "conversation": _conversation
-        },
-        headers: _authHeaders);
+            data: {
+              "prompt": prompt,
+              "context": context,
+              "conversation": _conversation
+            },
+            headers: _authHeaders)
+        .asyncMap(
+            (event) => MessageEvent(event.type, jsonDecode(event.content)));
   }
 }

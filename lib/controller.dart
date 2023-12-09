@@ -69,6 +69,7 @@ class Controller extends GetxController {
       }
     } catch (e) {
       Get.snackbar("Error occurred", e.toString());
+      e.printError();
     }
 
     _saveGeneratedMessage();
