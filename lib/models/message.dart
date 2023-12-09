@@ -40,3 +40,35 @@ class Message {
     assert(role == roleUser || role == roleAssistant || role == roleSystem);
   }
 }
+
+extension ToContext on List<Message> {
+  String toContext() {
+    if (isEmpty) return '';
+
+    final context = map((message) {
+      return switch (message) {
+        Message(
+          role: Message.roleUser,
+          type: Message.typeMessage,
+          content: _
+        ) =>
+          '[user](#message)\n${message.content}',
+        Message(
+          role: Message.roleAssistant,
+          type: Message.typeMessage,
+          content: _
+        ) =>
+          '[assistant](#message)\n${message.content}',
+        Message(
+          role: Message.roleSystem,
+          type: Message.typeAdditionalInstructions,
+          content: _
+        ) =>
+          '[system](#additional_instructions)\n${message.content}',
+        _ => ''
+      };
+    }).join('\n\n');
+
+    return '\n\n$context';
+  }
+}

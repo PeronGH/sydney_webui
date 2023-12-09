@@ -50,6 +50,9 @@ class Controller extends GetxController {
 
     isGenerating.value = true;
 
+    // Generate context without prompt
+    final context = messages.toContext();
+
     // Add prompt to message list as user message
     final userPrompt = prompt.value;
     messages.add(Message(
@@ -59,11 +62,13 @@ class Controller extends GetxController {
 
     prompt.value = '';
 
-    // TODO: Generate response from Sydney
-    _onGenerateProgress(Message.typeLoading, "Loading...");
-    for (var i = 0; i < 10; i++) {
-      await Future.delayed(const Duration(milliseconds: 200));
-      _onGenerateProgress(Message.typeMessage, i.toString());
+    try {
+      await for (final event
+          in sydneyService.askStream(prompt: userPrompt, context: context)) {
+        _onGenerateProgress(event.type, event.content);
+      }
+    } catch (e) {
+      Get.snackbar("Error occurred", e.toString());
     }
 
     _saveGeneratedMessage();
