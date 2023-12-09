@@ -7,3 +7,9 @@ Web UI for Sydney (Bing Chat).
 1. Deploy [backend](https://github.com/juzeon/SydneyQt/tree/v2/webapi).
 
 2. `flutter run -d chrome`.
+
+## Deploy to Cloudflare Pages
+
+```bash
+peanut -b production --extra-args "--dart-define-from-file=config.json"
+```
