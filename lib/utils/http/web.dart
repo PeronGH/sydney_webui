@@ -55,6 +55,7 @@ Stream<String> _postJsonAndGetLineStream(Uri url,
   final controller = StreamController<String>();
 
   xhr.onReadyStateChange.listen((event) {
+    if (controller.isClosed) return;
     if (xhr.readyState == HttpRequest.HEADERS_RECEIVED) {
       if (xhr.status != 200) {
         controller.addError(
@@ -71,6 +72,7 @@ Stream<String> _postJsonAndGetLineStream(Uri url,
 
   var streamed = 0;
   xhr.onProgress.listen((event) {
+    if (controller.isClosed) return;
     final res = xhr.responseText ?? '';
     if (res.length > streamed) {
       controller.add(res.substring(streamed));
