@@ -51,10 +51,11 @@ class Controller extends GetxController {
     isGenerating.value = true;
 
     // Add prompt to message list as user message
+    final userPrompt = prompt.value;
     messages.add(Message(
         role: Message.roleUser,
         type: Message.typeMessage,
-        content: prompt.value));
+        content: userPrompt));
 
     prompt.value = '';
 

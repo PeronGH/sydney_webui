@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sydney_webui/utils/http.dart';
 
 class SydneyService {
@@ -7,15 +9,35 @@ class SydneyService {
   static const _defaultCookies = String.fromEnvironment("API_COOKIES");
 
   // Instance fields
-  var baseUrl = Uri.tryParse(_defaultBaseUrl);
-  var accessToken = _defaultAccessToken;
-  var cookies = _defaultCookies;
+  final baseUrl = ''.obs;
+  final accessToken = ''.obs;
+  final cookies = ''.obs;
 
   Map<String, dynamic> _conversation = {};
 
+  // Initializer
+  SydneyService() {
+    // Persist settings
+    final box = GetStorage();
+
+    // Load settings from storage
+    baseUrl.value = box.read('baseUrl') ?? _defaultBaseUrl;
+    accessToken.value = box.read('accessToken') ?? _defaultAccessToken;
+    cookies.value = box.read('cookies') ?? _defaultCookies;
+
+    // Save settings when they change
+    ever(baseUrl, (baseUrl) => box.write('baseUrl', baseUrl));
+    ever(accessToken, (accessToken) => box.write('accessToken', accessToken));
+    ever(cookies, (cookies) => box.write('cookies', cookies));
+  }
+
   // Getters
-  Uri? get _createConversationUrl => baseUrl?.resolve("/conversation/new");
-  Uri? get _askStreamUrl => baseUrl?.resolve("/chat/stream");
+  Uri? get _createConversationUrl =>
+      Uri.tryParse(baseUrl.value)?.resolve("/conversation/new");
+
+  Uri? get _askStreamUrl =>
+      Uri.tryParse(baseUrl.value)?.resolve("/chat/stream");
+
   Map<String, String> get _authHeaders =>
       {"Authorization": "Bearer $accessToken"};
 
@@ -26,7 +48,6 @@ class SydneyService {
   }
 
   // Methods
-
   Stream<MessageEvent> askStream(
       {required String prompt, required String context}) async* {
     if (_conversation.isEmpty) {

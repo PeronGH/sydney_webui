@@ -31,6 +31,7 @@ dependencies:
     flutter:
         sdk: flutter
     get:
+    get_storage:
     file_picker: ^6.1.1
     flutter_markdown:
 

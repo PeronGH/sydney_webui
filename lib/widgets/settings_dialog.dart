@@ -9,9 +9,9 @@ class SettingsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<Controller>();
 
-    var apiBaseUrl = controller.sydneyService.baseUrl?.toString() ?? '';
-    var apiAccessToken = controller.sydneyService.accessToken;
-    var apiCookies = controller.sydneyService.cookies;
+    var apiBaseUrl = controller.sydneyService.baseUrl.value;
+    var apiAccessToken = controller.sydneyService.accessToken.value;
+    var apiCookies = controller.sydneyService.cookies.value;
 
     return AlertDialog(
       title: const Text('Settings'),
@@ -54,9 +54,9 @@ class SettingsDialog extends StatelessWidget {
         TextButton(
           child: const Text('Save'),
           onPressed: () {
-            controller.sydneyService.baseUrl = Uri.tryParse(apiBaseUrl);
-            controller.sydneyService.accessToken = apiAccessToken;
-            controller.sydneyService.cookies = apiCookies;
+            controller.sydneyService.baseUrl.value = apiBaseUrl;
+            controller.sydneyService.accessToken.value = apiAccessToken;
+            controller.sydneyService.cookies.value = apiCookies;
             Get.back();
           },
         ),
