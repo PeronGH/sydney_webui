@@ -41,11 +41,11 @@ Future<Map<String, dynamic>> postAndDecodeJson(Uri url,
       final decodedResponse = json.decode(responseBody) as Map<String, dynamic>;
       return decodedResponse;
     } else {
-      throw Exception(
+      throw HttpRequestException(
           'Failed to post JSON. Status code: ${response.statusCode}, Reason: ${response.reasonPhrase}');
     }
   } catch (e) {
-    throw Exception('Exception occurred during POST request: $e');
+    throw HttpRequestException('Exception occurred during POST request: $e');
   } finally {
     // Always close the HttpClient to free system resources
     httpClient.close();
@@ -66,11 +66,11 @@ Stream<MessageEvent> postJsonAndParseSse(Uri url,
           response.transform(utf8.decoder).transform(const LineSplitter());
       yield* parseLineStreamToSse(lineStream);
     } else {
-      throw Exception(
+      throw HttpRequestException(
           'Failed to post JSON. Status code: ${response.statusCode}, Reason: ${response.reasonPhrase}');
     }
   } catch (e) {
-    throw Exception('Exception occurred during POST request: $e');
+    throw HttpRequestException('Exception occurred during POST request: $e');
   } finally {
     // Always close the HttpClient to free system resources
     httpClient.close();

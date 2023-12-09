@@ -24,3 +24,11 @@ Stream<MessageEvent> parseLineStreamToSse(Stream<String> lineStream) async* {
     }
   }
 }
+
+class HttpRequestException implements Exception {
+  final String message;
+  HttpRequestException(this.message);
+
+  @override
+  String toString() => message;
+}

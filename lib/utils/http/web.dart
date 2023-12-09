@@ -80,11 +80,3 @@ Stream<String> _postJsonAndGetLineStream(Uri url,
 
   return controller.stream.transform(const LineSplitter());
 }
-
-class HttpRequestException implements Exception {
-  final String message;
-  HttpRequestException(this.message);
-
-  @override
-  String toString() => message;
-}
