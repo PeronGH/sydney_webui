@@ -7,27 +7,25 @@ import 'dart:convert';
 Future<Map<String, dynamic>> postAndDecodeJson(Uri url,
     {required Map<String, dynamic> data, Map<String, String>? headers}) async {
   // Initialize an HTTP request
-  final req = await HttpRequest.request(
-    url.toString(),
-    method: 'POST',
-    sendData: jsonEncode(data),
-    requestHeaders: {
-      'Content-Type': 'application/json',
-      ...?headers, // Spread operator to include optional headers if provided
-    },
-  );
+  final HttpRequest req;
+  try {
+    req = await HttpRequest.request(
+      url.toString(),
+      method: 'POST',
+      sendData: jsonEncode(data),
+      requestHeaders: {
+        'Content-Type': 'application/json',
+        ...?headers, // Spread operator to include optional headers if provided
+      },
+    );
+  } on ProgressEvent catch (event) {
+    final xhr = event.target as HttpRequest;
+    throw HttpRequestException(
+        'Request failed with: ${xhr.status} ${xhr.responseText}');
+  }
 
   try {
-    // Check for successful response status
-    if (req.status == 200) {
-      // Decode the response body
-      return jsonDecode(req.responseText!);
-    } else {
-      // Handle non-successful responses
-      throw HttpRequestException(
-        'Request failed with status: ${req.status}',
-      );
-    }
+    return jsonDecode(req.responseText!);
   } on Error catch (e) {
     // Handle any errors that occur during the request
     throw HttpRequestException('Error occurred: $e');
