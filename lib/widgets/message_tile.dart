@@ -31,7 +31,10 @@ class MessageTile extends StatelessWidget {
 
     final copyButton = IconButton(
       onPressed: copyContent,
-      icon: const Icon(Icons.copy),
+      icon: const Icon(
+        Icons.copy,
+        size: 20,
+      ),
     );
 
     return ListTile(
