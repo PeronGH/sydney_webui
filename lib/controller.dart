@@ -86,10 +86,10 @@ class Controller extends GetxController {
     isGenerating.value = false;
   }
 
-  void deleteMessageAt(int index) {
+  Message deleteMessageAt(int index) {
     final removed = messages.removeAt(index);
 
-    if (removed.role == Message.roleSystem) return;
+    if (removed.role == Message.roleSystem) return removed;
 
     // remove any next assistant messages
     while (index < messages.length &&
@@ -108,6 +108,13 @@ class Controller extends GetxController {
         messages.removeAt(--index);
       }
     }
+
+    return removed;
+  }
+
+  void editMessageAt(int index) {
+    final removed = deleteMessageAt(index);
+    promptController.text = removed.content;
   }
 
   // Helper methods

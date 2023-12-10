@@ -31,19 +31,28 @@ class MessageList extends StatelessWidget {
                 // Render normal message
                 final message = controller.messages[index];
                 return MessageTile(
-                    message: message,
-                    deleteButton: Obx(
-                      () => controller.isGenerating.value
-                          ? const IconButton(
-                              onPressed: null,
-                              icon: Icon(Icons.delete_outline),
-                            )
-                          : IconButton(
-                              onPressed: () =>
-                                  controller.deleteMessageAt(index),
-                              icon: const Icon(Icons.delete_outline),
-                            ),
-                    ));
+                  message: message,
+                  deleteButton: Obx(
+                    () => controller.isGenerating.value
+                        ? const IconButton(
+                            onPressed: null,
+                            icon: Icon(Icons.delete_outline),
+                          )
+                        : IconButton(
+                            onPressed: () => controller.deleteMessageAt(index),
+                            icon: const Icon(Icons.delete_outline),
+                          ),
+                  ),
+                  editButton: Obx(() => controller.isGenerating.value
+                      ? const IconButton(
+                          onPressed: null,
+                          icon: Icon(Icons.edit_outlined),
+                        )
+                      : IconButton(
+                          onPressed: () => controller.editMessageAt(index),
+                          icon: const Icon(Icons.edit_outlined),
+                        )),
+                );
               },
             );
           }),

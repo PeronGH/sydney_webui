@@ -56,7 +56,7 @@ class MessageTile extends StatelessWidget {
                 [copyButton, editButton, deleteButton].filterNonNull(),
               Message.roleAssistant =>
                 [copyButton, deleteButton].filterNonNull(),
-              Message.roleSystem => [copyButton, editButton].filterNonNull(),
+              Message.roleSystem => [copyButton].filterNonNull(),
               _ => [],
             })
           ],
