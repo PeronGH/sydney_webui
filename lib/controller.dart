@@ -18,12 +18,7 @@ class Controller extends GetxController {
   // Reactive variables
   final isGenerating = false.obs;
   final prompt = ''.obs;
-  final messages = <Message>[
-    Message(
-        role: Message.roleSystem,
-        type: Message.typeAdditionalInstructions,
-        content: Message.defaultSystemMessage),
-  ].obs;
+  final messages = <Message>[].obs;
 
   final generatingType = ''.obs;
   final generatingContent = ''.obs;
@@ -44,6 +39,9 @@ class Controller extends GetxController {
 
     // Update message list when messages changes
     ever(messages, (_) => update([idMessageList]));
+
+    // initialize with default message
+    newConversation();
   }
 
   void submit() async {
@@ -156,5 +154,14 @@ class Controller extends GetxController {
 
     generatingType.value = '';
     generatingContent.value = '';
+  }
+
+  void newConversation() {
+    messages.value = <Message>[
+      Message(
+          role: Message.roleSystem,
+          type: Message.typeAdditionalInstructions,
+          content: Message.defaultSystemMessage)
+    ];
   }
 }

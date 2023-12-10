@@ -18,7 +18,7 @@ class MessageList extends StatelessWidget {
               itemCount: controller.messages.length + 1,
               itemBuilder: (context, index) {
                 if (index == controller.messages.length) {
-                  // Only render last one (generating message) when generating
+                  // Last one is the message being generated or user input
                   return Obx(() => controller.isGenerating.value
                       ? MessageTile(
                           message: Message(

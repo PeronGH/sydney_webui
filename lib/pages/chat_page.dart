@@ -24,6 +24,22 @@ class ChatPage extends StatelessWidget {
                 icon: const Icon(Icons.settings))
           ],
         ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              Obx(() => ListTile(
+                    leading: const Icon(Icons.add),
+                    title: const Text('New Conversation'),
+                    onTap: controller.isGenerating.value
+                        ? null
+                        : () {
+                            controller.newConversation();
+                            Get.back();
+                          },
+                  )),
+            ],
+          ),
+        ),
         body: const Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(
