@@ -32,14 +32,12 @@ class MessageList extends StatelessWidget {
                 final message = controller.messages[index];
                 return MessageTile(
                   message: message,
-                  deleteButton: Obx(
-                    () => IconButton(
-                      onPressed: controller.isGenerating.value
-                          ? null
-                          : () => controller.deleteMessageAt(index),
-                      icon: const Icon(Icons.delete_outline),
-                    ),
-                  ),
+                  deleteButton: Obx(() => IconButton(
+                        onPressed: controller.isGenerating.value
+                            ? null
+                            : () => controller.deleteMessageAt(index),
+                        icon: const Icon(Icons.delete_outline),
+                      )),
                   editButton: Obx(() => IconButton(
                         onPressed: controller.isGenerating.value
                             ? null
