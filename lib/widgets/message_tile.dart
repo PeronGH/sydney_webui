@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/array.dart';
 
@@ -15,6 +16,10 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    final markdownTheme = MarkdownStyleSheet.fromTheme(theme).copyWith(
+        code: theme.textTheme.bodyMedium!
+            .copyWith(fontFamily: GoogleFonts.robotoMono().fontFamily));
 
     return ListTile(
       title: Padding(
@@ -42,7 +47,11 @@ class MessageTile extends StatelessWidget {
           ],
         ),
       ),
-      subtitle: MarkdownBody(data: message.content),
+      subtitle: MarkdownBody(
+        selectable: true,
+        data: message.content,
+        styleSheet: markdownTheme,
+      ),
       titleTextStyle: theme.textTheme.bodySmall,
     );
   }
