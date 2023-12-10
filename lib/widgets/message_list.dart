@@ -25,7 +25,11 @@ class MessageList extends StatelessWidget {
                               role: Message.roleAssistant,
                               type: controller.generatingType.value,
                               content: controller.generatingContent.value))
-                      : const SizedBox.shrink());
+                      : MessageTile(
+                          message: Message(
+                              role: Message.roleUser,
+                              type: Message.typeTyping,
+                              content: controller.prompt.value)));
                 }
 
                 // Render normal message
