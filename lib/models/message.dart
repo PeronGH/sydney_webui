@@ -69,7 +69,7 @@ extension ToContext on List<Message> {
           '[system](#additional_instructions)\n${message.content.trim()}',
         _ => ''
       };
-    }).join('\n\n');
+    }).where((msg) => msg.isNotEmpty).join('\n\n');
 
     return '\n\n$context';
   }
