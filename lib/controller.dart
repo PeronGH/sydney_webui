@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/services/sydney_service.dart';
@@ -12,6 +13,7 @@ class Controller extends GetxController {
 
   // Controllers
   final promptController = TextEditingController();
+  final scrollController = ScrollController();
 
   // Reactive variables
   final isGenerating = false.obs;
@@ -58,6 +60,14 @@ class Controller extends GetxController {
         role: Message.roleUser,
         type: Message.typeMessage,
         content: userPrompt));
+
+    // Scroll to bottom
+    SchedulerBinding.instance
+        .addPostFrameCallback((_) => scrollController.animateTo(
+              scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOut,
+            ));
 
     promptController.clear();
 
@@ -114,8 +124,19 @@ class Controller extends GetxController {
         break;
     }
 
+    final isAtBottom = scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent;
+
     generatingType.value = type;
     generatingContent.value += content;
+
+    // Scroll to new bottom if already at bottom
+    if (isAtBottom) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => scrollController.jumpTo(
+                scrollController.position.maxScrollExtent,
+              ));
+    }
   }
 
   void _saveGeneratedMessage() {
