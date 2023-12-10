@@ -16,6 +16,7 @@ class ImageUploadDialog extends StatelessWidget {
 
     final textEditController = TextEditingController(text: imageUrl.value);
     textEditController.addListener(() {
+      if (imageUrl.value == textEditController.text) return;
       imageUrl.value = textEditController.text;
     });
 
