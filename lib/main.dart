@@ -7,6 +7,7 @@ void main() async {
   await GetStorage.init();
   runApp(
     GetMaterialApp(
+        title: "Sydney Chat",
         home: ChatPage(),
         theme: ThemeData(
             colorSchemeSeed: Colors.teal, brightness: Brightness.light),
