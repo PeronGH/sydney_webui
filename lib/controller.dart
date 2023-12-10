@@ -76,8 +76,6 @@ class Controller extends GetxController {
     isGenerating.value = false;
   }
 
-  void uploadImage() async {}
-
   void deleteMessageAt(int index) {
     final removed = messages.removeAt(index);
 

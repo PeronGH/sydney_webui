@@ -9,7 +9,7 @@ class SettingsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<Controller>();
 
-    var apiBaseUrl = controller.sydneyService.baseUrl.value;
+    var apiBaseUrl = controller.sydneyService.apiBaseUrl.value;
     var apiAccessToken = controller.sydneyService.accessToken.value;
     var apiCookies = controller.sydneyService.cookies.value;
     final noSearch = controller.sydneyService.noSearch.value.obs;
@@ -26,7 +26,7 @@ class SettingsDialog extends StatelessWidget {
               ),
               onChanged: (value) => apiBaseUrl = value,
             ),
-            const SizedBox(height: 8.0), // Adds spacing between fields
+            const SizedBox(height: 8), // Adds spacing between fields
             TextFormField(
               initialValue: apiAccessToken,
               decoration: const InputDecoration(
@@ -34,7 +34,7 @@ class SettingsDialog extends StatelessWidget {
               ),
               onChanged: (value) => apiAccessToken = value,
             ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 8),
             TextFormField(
               initialValue: apiCookies,
               decoration: const InputDecoration(
@@ -42,7 +42,7 @@ class SettingsDialog extends StatelessWidget {
               ),
               onChanged: (value) => apiCookies = value,
             ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 8),
             Obx(() => CheckboxListTile(
                   title: const Text('Disable Search'),
                   value: noSearch.value,
@@ -61,7 +61,7 @@ class SettingsDialog extends StatelessWidget {
         TextButton(
           child: const Text('Save'),
           onPressed: () {
-            controller.sydneyService.baseUrl.value = apiBaseUrl;
+            controller.sydneyService.apiBaseUrl.value = apiBaseUrl;
             controller.sydneyService.accessToken.value = apiAccessToken;
             controller.sydneyService.cookies.value = apiCookies;
             controller.sydneyService.noSearch.value = noSearch.value;

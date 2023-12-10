@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sydney_webui/controller.dart';
+import 'package:sydney_webui/widgets/image_upload_dialog.dart';
 
 class PromptInput extends StatelessWidget {
   const PromptInput({Key? key}) : super(key: key);
@@ -39,8 +40,13 @@ class PromptInput extends StatelessWidget {
             prefixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: IconButton(
-                    onPressed: controller.uploadImage,
-                    icon: const Icon(Icons.add_photo_alternate_outlined))),
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: const ImageUploadDialog().build),
+                    icon: Obx(() => Icon(
+                        controller.sydneyService.imageUrl.isEmpty
+                            ? Icons.add_photo_alternate_outlined
+                            : Icons.image)))),
             suffixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Obx(() => IconButton(
