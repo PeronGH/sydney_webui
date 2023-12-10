@@ -36,9 +36,6 @@ class SydneyService extends GetConnect {
   }
 
   // Getters
-  Uri? get _createConversationUrl =>
-      Uri.tryParse(apiBaseUrl.value)?.resolve("/conversation/new");
-
   Uri? get _askStreamUrl =>
       Uri.tryParse(apiBaseUrl.value)?.resolve("/chat/stream");
 
@@ -48,20 +45,6 @@ class SydneyService extends GetConnect {
   Map<String, String> get _authHeaders =>
       {"Authorization": "Bearer $accessToken"};
 
-  // Helper Methods
-  Future<Map<String, dynamic>> _getConversation() async {
-    final resp = await post(
-        _createConversationUrl!.toString(), {"cookies": cookies.value},
-        headers: _authHeaders);
-
-    if (resp.statusCode != 200) {
-      throw HttpRequestException(
-          "Failed to create conversation: ${resp.status}");
-    }
-
-    return resp.body;
-  }
-
   // Methods
   Stream<MessageEvent> askStream(
       {required String prompt, required String context}) async* {
@@ -70,7 +53,6 @@ class SydneyService extends GetConnect {
               "cookies": cookies.value,
               "prompt": prompt,
               "context": context,
-              "conversation": await _getConversation(),
               "noSearch": noSearch.value,
               "imageUrl": imageUrl.value
             },
