@@ -44,6 +44,7 @@ Stream<String> _postJsonAndGetLineStream(Uri url,
           ),
         );
         controller.close();
+        xhr.abort();
       }
     } else if (xhr.readyState == HttpRequest.DONE) {
       onNewChunk();
