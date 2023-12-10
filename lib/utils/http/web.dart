@@ -24,6 +24,16 @@ Stream<String> _postJsonAndGetLineStream(Uri url,
 
   final controller = StreamController<String>();
 
+  var streamed = 0;
+  void onNewChunk() {
+    if (controller.isClosed) return;
+    final res = xhr.responseText ?? '';
+    if (res.length > streamed) {
+      controller.add(res.substring(streamed));
+      streamed = res.length;
+    }
+  }
+
   xhr.onReadyStateChange.listen((event) {
     if (controller.isClosed) return;
     if (xhr.readyState == HttpRequest.HEADERS_RECEIVED) {
@@ -36,19 +46,12 @@ Stream<String> _postJsonAndGetLineStream(Uri url,
         controller.close();
       }
     } else if (xhr.readyState == HttpRequest.DONE) {
+      onNewChunk();
       controller.close();
     }
   });
 
-  var streamed = 0;
-  xhr.onProgress.listen((event) {
-    if (controller.isClosed) return;
-    final res = xhr.responseText ?? '';
-    if (res.length > streamed) {
-      controller.add(res.substring(streamed));
-      streamed = res.length;
-    }
-  });
+  xhr.onProgress.listen((_) => onNewChunk());
 
   return controller.stream.transform(const LineSplitter());
 }
