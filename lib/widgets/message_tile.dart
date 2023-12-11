@@ -45,10 +45,9 @@ class MessageTile extends StatelessWidget {
                   children: message.imageUrls!
                       .map((url) => Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: Get.width,
-                            child: Image.network(url),
-                          )))
+                          child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 256),
+                              child: Image.network(url))))
                       .toList(),
                 ))
           ]
