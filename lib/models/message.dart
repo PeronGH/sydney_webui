@@ -8,6 +8,7 @@ class Message {
   static const typeLoading = 'loading';
   static const typeSearchResult = 'search_result';
   static const typeSuggestedResponses = 'suggested_responses';
+  static const typeError = 'error';
   static const typeTyping = 'typing'; // non-existent, only for UI
 
   static const defaultSystemMessage =

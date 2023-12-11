@@ -17,9 +17,9 @@ class MessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Get.theme;
-
-    final shouldExpand = message.type == Message.typeMessage;
+    final shouldExpand = message.type == Message.typeMessage ||
+        message.type == Message.typeTyping ||
+        message.type == Message.typeError;
 
     void copyContent() async {
       try {
@@ -36,48 +36,37 @@ class MessageTile extends StatelessWidget {
       icon: const Icon(Icons.copy_rounded),
     );
 
-    final title = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ExpansionTile(
+      shape: const RoundedRectangleBorder(),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(children: [
+            Icon(switch (message.role) {
+              Message.roleUser => Icons.person_outline,
+              Message.roleAssistant => Icons.assistant_outlined,
+              Message.roleSystem => Icons.info_outline,
+              _ => Icons.question_mark,
+            }),
+            const SizedBox(width: 8),
+            Text(message.type)
+          ]),
+          Row(
+              children: switch (message.role) {
+            Message.roleUser =>
+              [copyButton, editButton, deleteButton].filterNonNull(),
+            Message.roleAssistant => [copyButton, deleteButton].filterNonNull(),
+            Message.roleSystem => [copyButton].filterNonNull(),
+            _ => [],
+          })
+        ],
+      ),
+      initiallyExpanded: shouldExpand,
       children: [
-        Row(children: [
-          Icon(switch (message.role) {
-            Message.roleUser => Icons.person_outline,
-            Message.roleAssistant => Icons.assistant_outlined,
-            Message.roleSystem => Icons.info_outline,
-            _ => Icons.question_mark,
-          }),
-          const SizedBox(width: 8),
-          Text(message.type)
-        ]),
-        Row(
-            children: switch (message.role) {
-          Message.roleUser =>
-            [copyButton, editButton, deleteButton].filterNonNull(),
-          Message.roleAssistant => [copyButton, deleteButton].filterNonNull(),
-          Message.roleSystem => [copyButton].filterNonNull(),
-          _ => [],
+        md.MarkdownBody(selectable: true, data: message.content, builders: {
+          'code': CodeElementBuilder(),
         })
       ],
     );
-
-    final subtitle = Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child:
-          md.MarkdownBody(selectable: true, data: message.content, builders: {
-        'code': CodeElementBuilder(),
-      }),
-    );
-
-    return shouldExpand
-        ? ListTile(
-            title: title,
-            subtitle: subtitle,
-            titleTextStyle: theme.textTheme.bodySmall,
-          )
-        : ExpansionTile(
-            shape: const RoundedRectangleBorder(),
-            title: title,
-            children: [subtitle],
-          );
   }
 }
