@@ -157,7 +157,7 @@ class Controller extends GetxController {
   }
 
   void newConversation() {
-    // Clear prompt image
+    // Clear prompt and image
     promptController.clear();
     sydneyService.imageUrl.value = '';
 
