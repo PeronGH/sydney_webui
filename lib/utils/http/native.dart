@@ -1,3 +1,7 @@
+// This file is written due to a mistake
+// It is neither used in the project
+// nor will be maintained
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:sydney_webui/utils/http/common.dart';

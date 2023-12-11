@@ -32,3 +32,10 @@ class HttpRequestException implements Exception {
   @override
   String toString() => message;
 }
+
+class CancellableStream<T> {
+  final Stream<T> stream;
+  final void Function() cancel;
+
+  const CancellableStream(this.stream, this.cancel);
+}

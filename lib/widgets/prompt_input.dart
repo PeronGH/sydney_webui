@@ -49,15 +49,14 @@ class PromptInput extends StatelessWidget {
                             : Icons.image)))),
             suffixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Obx(() => IconButton(
-                  onPressed: controller.canSubmit ? controller.submit : null,
-                  icon: controller.isGenerating.value
-                      ? const SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(),
-                        )
-                      : const Icon(Icons.send))),
+              child: Obx(() => controller.isGenerating.value
+                  ? IconButton(
+                      onPressed: controller.sydneyService.cancelStream,
+                      icon: const Icon(Icons.stop_circle))
+                  : IconButton(
+                      onPressed:
+                          controller.canSubmit ? controller.submit : null,
+                      icon: const Icon(Icons.send))),
             ),
           ),
           cursorColor: colorScheme.primary,

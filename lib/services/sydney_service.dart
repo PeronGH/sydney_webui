@@ -17,6 +17,8 @@ class SydneyService extends GetConnect {
   final noSearch = false.obs;
   final imageUrl = ''.obs;
 
+  void Function()? _cancelStream;
+
   // Initializer
   SydneyService() {
     // Persist settings
@@ -48,17 +50,20 @@ class SydneyService extends GetConnect {
   // Methods
   Stream<MessageEvent> askStream(
       {required String prompt, required String context}) async* {
-    yield* postJsonAndParseSse(_askStreamUrl!,
-            data: {
-              "cookies": cookies.value,
-              "prompt": prompt,
-              "context": context,
-              "noSearch": noSearch.value,
-              "imageUrl": imageUrl.value
-            },
-            headers: _authHeaders)
-        .asyncMap(
-            (event) => MessageEvent(event.type, jsonDecode(event.content)));
+    final cancellable = postJsonAndParseSse(_askStreamUrl!,
+        data: {
+          "cookies": cookies.value,
+          "prompt": prompt,
+          "context": context,
+          "noSearch": noSearch.value,
+          "imageUrl": imageUrl.value
+        },
+        headers: _authHeaders);
+
+    _cancelStream = cancellable.cancel;
+
+    yield* cancellable.stream.asyncMap(
+        (event) => MessageEvent(event.type, jsonDecode(event.content)));
   }
 
   Future<String> uploadImage(Uint8List image) async {
@@ -75,5 +80,9 @@ class SydneyService extends GetConnect {
     }
 
     return resp.bodyString!;
+  }
+
+  void cancelStream() {
+    _cancelStream?.call();
   }
 }

@@ -4,15 +4,17 @@ import 'package:sydney_webui/utils/http/common.dart';
 import 'dart:html';
 import 'dart:convert';
 
-Stream<MessageEvent> postJsonAndParseSse(Uri url,
-    {required Map<String, dynamic> data, Map<String, String>? headers}) async* {
-  final lineStream =
+CancellableStream<MessageEvent> postJsonAndParseSse(Uri url,
+    {required Map<String, dynamic> data, Map<String, String>? headers}) {
+  final cancellable =
       _postJsonAndGetLineStream(url, data: data, headers: headers);
 
-  yield* parseLineStreamToSse(lineStream);
+  final stream = parseLineStreamToSse(cancellable.stream);
+
+  return CancellableStream(stream, cancellable.cancel);
 }
 
-Stream<String> _postJsonAndGetLineStream(Uri url,
+CancellableStream<String> _postJsonAndGetLineStream(Uri url,
     {required Map<String, dynamic> data, Map<String, String>? headers}) {
   final xhr = HttpRequest();
   xhr.open('POST', url.toString());
@@ -54,5 +56,11 @@ Stream<String> _postJsonAndGetLineStream(Uri url,
 
   xhr.onProgress.listen((_) => onNewChunk());
 
-  return controller.stream.transform(const LineSplitter());
+  final stream = controller.stream.transform(const LineSplitter());
+  void cancel() {
+    controller.close();
+    xhr.abort();
+  }
+
+  return CancellableStream(stream, cancel);
 }
