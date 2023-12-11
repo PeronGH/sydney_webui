@@ -64,3 +64,24 @@ CancellableStream<String> _postJsonAndGetLineStream(Uri url,
 
   return CancellableStream(stream, cancel);
 }
+
+Future<dynamic> postJson(Uri url,
+    {required Map<String, dynamic> data, Map<String, String>? headers}) async {
+  final xhr = HttpRequest();
+  xhr.open('POST', url.toString());
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  headers?.forEach((key, value) {
+    xhr.setRequestHeader(key, value);
+  });
+  xhr.send(jsonEncode(data));
+
+  await xhr.onLoadEnd.first;
+
+  if (xhr.status != 200) {
+    throw HttpRequestException(
+      'Request failed with: ${xhr.status} ${xhr.statusText}',
+    );
+  }
+
+  return jsonDecode(xhr.responseText ?? '');
+}

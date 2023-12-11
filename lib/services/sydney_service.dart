@@ -83,11 +83,13 @@ class SydneyService extends GetConnect {
 
   Future<List<String>> getGenerativeImageUrls(
       Map<String, dynamic> generativeImage) async {
-    final resp = await post(
-        _createImageUrl!.toString(), {"image": generativeImage},
-        headers: _authHeaders);
+    final resp = await postJson(_createImageUrl!,
+        data: {"image": generativeImage}, headers: _authHeaders);
 
-    return resp.body["image_urls"];
+    return (resp["image_urls"] as List<dynamic>)
+        .cast<String>()
+        .map((url) => url.split("?").first)
+        .toList();
   }
 
   void cancelStream() {

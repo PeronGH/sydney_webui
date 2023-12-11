@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
@@ -126,6 +128,29 @@ class Controller extends GetxController {
       case Message.typeSuggestedResponses:
       case Message.typeSearchResult:
         if (generatingContent.value.startsWith(content)) return;
+        break;
+      // handle image generation
+      case Message.typeGenerativeImage:
+        final index = messages.length;
+        final generativeImage = jsonDecode(content);
+        content = 'Generating "${generativeImage['text']}"...';
+        () async {
+          try {
+            final urls =
+                await sydneyService.getGenerativeImageUrls(generativeImage);
+
+            if (messages.length <= index) return;
+            if (messages[index].type != Message.typeGenerativeImage) return;
+            messages[index] = Message(
+                role: Message.roleAssistant,
+                type: Message.typeGenerativeImage,
+                content: generativeImage["text"],
+                imageUrls: urls);
+          } catch (e) {
+            Get.snackbar(
+                'Error occurred', "Failed to generate image: ${e.toString()}");
+          }
+        }();
         break;
     }
 

@@ -19,7 +19,8 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final shouldExpand = message.type == Message.typeMessage ||
         message.type == Message.typeTyping ||
-        message.type == Message.typeError;
+        message.type == Message.typeError ||
+        message.type == Message.typeGenerativeImage;
 
     void copyContent() async {
       try {
@@ -36,8 +37,22 @@ class MessageTile extends StatelessWidget {
       icon: const Icon(Icons.copy_rounded),
     );
 
-    final images =
-        message.imageUrls?.map((url) => Image.network(url)).toList() ?? [];
+    final images = message.imageUrls != null
+        ? [
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: message.imageUrls!
+                      .map((url) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: Get.width,
+                            child: Image.network(url),
+                          )))
+                      .toList(),
+                ))
+          ]
+        : [];
 
     return ExpansionTile(
       shape: const RoundedRectangleBorder(),
