@@ -24,9 +24,13 @@ class MessageTile extends StatelessWidget {
             .copyWith(fontFamily: GoogleFonts.robotoMono().fontFamily));
 
     void copyContent() async {
-      await Clipboard.setData(ClipboardData(text: message.content));
-      Get.snackbar('Copied',
-          'Message from ${message.role} has been copied to clipboard');
+      try {
+        await Clipboard.setData(ClipboardData(text: message.content));
+        Get.snackbar('Copied',
+            'Message from ${message.role} has been copied to clipboard');
+      } catch (e) {
+        Get.snackbar('Error Occurred', 'Failed to copy message to clipboard');
+      }
     }
 
     final copyButton = IconButton(
