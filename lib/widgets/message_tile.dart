@@ -38,7 +38,7 @@ class MessageTile extends StatelessWidget {
       icon: const Icon(Icons.copy_rounded),
     );
 
-    final images = message.imageUrls != null
+    final images = message.imageUrls != null && message.imageUrls!.isNotEmpty
         ? [
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

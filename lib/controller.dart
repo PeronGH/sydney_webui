@@ -59,7 +59,10 @@ class Controller extends GetxController {
     messages.add(Message(
         role: Message.roleUser,
         type: Message.typeMessage,
-        content: userPrompt));
+        content: userPrompt,
+        imageUrls: sydneyService.imageUrl.value.isEmpty
+            ? null
+            : [sydneyService.imageUrl.value]));
 
     // Scroll to bottom
     SchedulerBinding.instance
