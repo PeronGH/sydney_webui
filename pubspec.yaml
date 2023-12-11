@@ -35,6 +35,8 @@ dependencies:
     file_picker: ^6.1.1
     flutter_markdown:
     google_fonts:
+    markdown:
+    flutter_highlighter:
 
 dev_dependencies:
     flutter_test:
