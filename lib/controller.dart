@@ -141,14 +141,22 @@ class Controller extends GetxController {
 
             if (messages.length <= index) return;
             if (messages[index].type != Message.typeGenerativeImage) return;
+            if (messages[index].content != content) return;
+
             messages[index] = Message(
                 role: Message.roleAssistant,
                 type: Message.typeGenerativeImage,
                 content: generativeImage["text"],
                 imageUrls: urls);
           } catch (e) {
-            Get.snackbar(
-                'Error occurred', "Failed to generate image: ${e.toString()}");
+            if (messages.length <= index) return;
+            if (messages[index].type != Message.typeGenerativeImage) return;
+            if (messages[index].content != content) return;
+
+            messages[index] = Message(
+                role: Message.roleAssistant,
+                type: Message.typeError,
+                content: 'Failed to generate image: ${e.toString()}');
           }
         }();
         break;
