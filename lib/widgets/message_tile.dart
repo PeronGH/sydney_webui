@@ -4,7 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart' as md;
 import 'package:get/get.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/array.dart';
-import 'package:sydney_webui/utils/download.dart';
+import 'package:sydney_webui/utils/url.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
 
 class MessageTile extends StatelessWidget {
@@ -54,9 +54,8 @@ class MessageTile extends StatelessWidget {
                                   Image.network(url),
                                   const SizedBox(height: 8),
                                   ElevatedButton(
-                                      onPressed: () =>
-                                          download(url, "image.png"),
-                                      child: const Text('Download'))
+                                      onPressed: () => openUrl(url),
+                                      child: const Text('View'))
                                 ],
                               ))))
                       .toList(),
