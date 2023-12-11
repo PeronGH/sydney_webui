@@ -149,6 +149,8 @@ class Controller extends GetxController {
                 content: generativeImage["text"],
                 imageUrls: urls);
           } catch (e) {
+            Get.snackbar('Error occurred', 'Failed to generate image: $e');
+
             if (messages.length <= index) return;
             if (messages[index].type != Message.typeGenerativeImage) return;
             if (messages[index].content != content) return;
