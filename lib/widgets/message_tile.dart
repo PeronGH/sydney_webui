@@ -29,7 +29,8 @@ class MessageTile extends StatelessWidget {
         Get.snackbar('Copied',
             'Message from ${message.role} has been copied to clipboard');
       } catch (e) {
-        Get.snackbar('Error Occurred', 'Failed to copy message to clipboard');
+        Get.snackbar(
+            'Error Occurred', 'Failed to copy message to clipboard: $e');
       }
     }
 

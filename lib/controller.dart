@@ -80,7 +80,7 @@ class Controller extends GetxController {
         _onGenerateProgress(event.type, event.content);
       }
     } catch (e) {
-      Get.snackbar("Error occurred", e.toString());
+      Get.snackbar("Error occurred", "Failed to generate message: $e");
       e.printError();
     }
 

@@ -32,7 +32,7 @@ class ImageUploadDialog extends StatelessWidget {
         textEditController.text =
             await controller.sydneyService.uploadImage(file.files.first.bytes!);
       } catch (e) {
-        Get.snackbar('Error occurred', e.toString());
+        Get.snackbar('Error occurred', 'Failed to upload image: $e');
       } finally {
         isUploading.value = false;
       }
