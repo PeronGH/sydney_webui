@@ -47,7 +47,15 @@ class MessageTile extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: ConstrainedBox(
                               constraints: const BoxConstraints(maxWidth: 256),
-                              child: Image.network(url))))
+                              child: Column(
+                                children: [
+                                  Image.network(url),
+                                  const SizedBox(height: 8),
+                                  ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text('Download'))
+                                ],
+                              ))))
                       .toList(),
                 ))
           ]
