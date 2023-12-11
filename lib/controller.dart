@@ -157,6 +157,9 @@ class Controller extends GetxController {
   }
 
   void newConversation() {
+    // Clear image
+    sydneyService.imageUrl.value = '';
+
     messages.value = <Message>[
       Message(
           role: Message.roleSystem,
