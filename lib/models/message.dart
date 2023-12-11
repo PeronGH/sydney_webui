@@ -9,6 +9,7 @@ class Message {
   static const typeSearchResult = 'search_result';
   static const typeSuggestedResponses = 'suggested_responses';
   static const typeError = 'error';
+  static const typeGenerativeImage = 'generative_image';
   static const typeTyping = 'typing'; // non-existent, only for UI
 
   static const defaultSystemMessage =
@@ -34,11 +35,13 @@ class Message {
   final String role;
   final String type;
   final String content;
+  final List<String>? imageUrls;
 
   Message({
     required this.role,
     required this.type,
     required this.content,
+    this.imageUrls,
   }) {
     assert(role == roleUser || role == roleAssistant || role == roleSystem);
   }

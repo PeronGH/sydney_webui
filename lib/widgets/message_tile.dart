@@ -36,6 +36,9 @@ class MessageTile extends StatelessWidget {
       icon: const Icon(Icons.copy_rounded),
     );
 
+    final images =
+        message.imageUrls?.map((url) => Image.network(url)).toList() ?? [];
+
     return ExpansionTile(
       shape: const RoundedRectangleBorder(),
       title: Row(
@@ -67,7 +70,8 @@ class MessageTile extends StatelessWidget {
       children: [
         md.MarkdownBody(selectable: true, data: message.content, builders: {
           'code': CodeElementBuilder(),
-        })
+        }),
+        ...images
       ],
     );
   }

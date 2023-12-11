@@ -28,7 +28,7 @@ class SydneyService extends GetConnect {
     apiBaseUrl.value = box.read('baseUrl') ?? _defaultBaseUrl;
     accessToken.value = box.read('accessToken') ?? _defaultAccessToken;
     cookies.value = box.read('cookies') ?? _defaultCookies;
-    noSearch.value = box.read('noSearch') ?? false;
+    noSearch.value = box.read('noSearch') ?? true;
 
     // Save settings when they change
     ever(apiBaseUrl, (baseUrl) => box.write('baseUrl', baseUrl));
@@ -43,6 +43,9 @@ class SydneyService extends GetConnect {
 
   Uri? get _uploadImageUrl =>
       Uri.tryParse(apiBaseUrl.value)?.resolve("/image/upload");
+
+  Uri? get _createImageUrl =>
+      Uri.tryParse(apiBaseUrl.value)?.resolve("/image/create");
 
   Map<String, String> get _authHeaders =>
       {"Authorization": "Bearer $accessToken"};
@@ -75,11 +78,16 @@ class SydneyService extends GetConnect {
     final resp =
         await post(_uploadImageUrl!.toString(), form, headers: _authHeaders);
 
-    if (resp.statusCode != 200) {
-      throw HttpRequestException("Failed to upload image: ${resp.status}");
-    }
-
     return resp.bodyString!;
+  }
+
+  Future<List<String>> getGenerativeImageUrls(
+      Map<String, dynamic> generativeImage) async {
+    final resp = await post(
+        _createImageUrl!.toString(), {"image": generativeImage},
+        headers: _authHeaders);
+
+    return resp.body["image_urls"];
   }
 
   void cancelStream() {

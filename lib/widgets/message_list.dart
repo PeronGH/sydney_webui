@@ -34,6 +34,7 @@ class MessageList extends StatelessWidget {
 
                 // Render normal message
                 final message = controller.messages[index];
+
                 return MessageTile(
                   message: message,
                   deleteButton: Obx(() => IconButton(
