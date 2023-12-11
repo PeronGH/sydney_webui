@@ -14,7 +14,7 @@ class SydneyService extends GetConnect {
   final apiBaseUrl = ''.obs;
   final accessToken = ''.obs;
   final cookies = ''.obs;
-  final noSearch = false.obs;
+  final noSearch = true.obs;
   final imageUrl = ''.obs;
 
   void Function()? _cancelStream;
