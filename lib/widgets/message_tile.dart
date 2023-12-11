@@ -62,6 +62,8 @@ class MessageTile extends StatelessWidget {
         ],
       ),
       initiallyExpanded: shouldExpand,
+      expandedAlignment: Alignment.topLeft,
+      childrenPadding: const EdgeInsets.symmetric(horizontal: 16),
       children: [
         md.MarkdownBody(selectable: true, data: message.content, builders: {
           'code': CodeElementBuilder(),
