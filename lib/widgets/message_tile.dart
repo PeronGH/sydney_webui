@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' as md;
@@ -25,7 +24,8 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<Controller>();
 
-    final shouldExpand = message.type == Message.typeMessage ||
+    final shouldExpand = isBeingGenerated ||
+        message.type == Message.typeMessage ||
         message.type == Message.typeTyping ||
         message.type == Message.typeError ||
         message.type == Message.typeGenerativeImage;
