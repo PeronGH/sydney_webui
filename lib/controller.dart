@@ -195,6 +195,8 @@ class Controller extends GetxController {
   }
 
   void newConversation() {
+    if (isGenerating.value) return;
+
     // Clear prompt and image
     setPrompt("");
     sydneyService.imageUrl.value = '';
