@@ -13,6 +13,7 @@ class SettingsDialog extends StatelessWidget {
     var apiAccessToken = controller.sydneyService.accessToken.value;
     var apiCookies = controller.sydneyService.cookies.value;
     final noSearch = controller.sydneyService.noSearch.value.obs;
+    final useGpt4Turbo = controller.sydneyService.useGpt4Turbo.value.obs;
 
     return AlertDialog(
       title: const Text('Settings'),
@@ -48,6 +49,12 @@ class SettingsDialog extends StatelessWidget {
                   value: noSearch.value,
                   onChanged: (value) => noSearch.value = value ?? false,
                 )),
+            const SizedBox(height: 8),
+            Obx(() => CheckboxListTile(
+                  title: const Text('Use GPT-4-Turbo'),
+                  value: useGpt4Turbo.value,
+                  onChanged: (value) => useGpt4Turbo.value = value ?? false,
+                )),
           ],
         ),
       ),
@@ -65,6 +72,7 @@ class SettingsDialog extends StatelessWidget {
             controller.sydneyService.accessToken.value = apiAccessToken;
             controller.sydneyService.cookies.value = apiCookies;
             controller.sydneyService.noSearch.value = noSearch.value;
+            controller.sydneyService.useGpt4Turbo.value = useGpt4Turbo.value;
             Get.back();
           },
         ),

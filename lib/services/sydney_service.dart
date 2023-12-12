@@ -9,12 +9,15 @@ class SydneyService extends GetConnect {
   static const _defaultBaseUrl = String.fromEnvironment("API_BASE_URL");
   static const _defaultAccessToken = String.fromEnvironment("API_ACCESS_TOKEN");
   static const _defaultCookies = String.fromEnvironment("API_COOKIES");
+  static const _defaultNoSearch = true;
+  static const _defaultUseGpt4Turbo = false;
 
   // Instance fields
-  final apiBaseUrl = ''.obs;
-  final accessToken = ''.obs;
-  final cookies = ''.obs;
-  final noSearch = true.obs;
+  final apiBaseUrl = _defaultBaseUrl.obs;
+  final accessToken = _defaultAccessToken.obs;
+  final cookies = _defaultCookies.obs;
+  final noSearch = _defaultNoSearch.obs;
+  final useGpt4Turbo = _defaultUseGpt4Turbo.obs;
   final imageUrl = ''.obs;
 
   void Function()? _cancelStream;
@@ -28,13 +31,16 @@ class SydneyService extends GetConnect {
     apiBaseUrl.value = box.read('baseUrl') ?? _defaultBaseUrl;
     accessToken.value = box.read('accessToken') ?? _defaultAccessToken;
     cookies.value = box.read('cookies') ?? _defaultCookies;
-    noSearch.value = box.read('noSearch') ?? true;
+    noSearch.value = box.read('noSearch') ?? _defaultNoSearch;
+    useGpt4Turbo.value = box.read('useGpt4Turbo') ?? _defaultUseGpt4Turbo;
 
     // Save settings when they change
     ever(apiBaseUrl, (baseUrl) => box.write('baseUrl', baseUrl));
     ever(accessToken, (accessToken) => box.write('accessToken', accessToken));
     ever(cookies, (cookies) => box.write('cookies', cookies));
     ever(noSearch, (noSearch) => box.write('noSearch', noSearch));
+    ever(useGpt4Turbo,
+        (useGpt4Turbo) => box.write('useGpt4Turbo', useGpt4Turbo));
   }
 
   // Getters
@@ -59,7 +65,8 @@ class SydneyService extends GetConnect {
           "prompt": prompt,
           "context": context,
           "noSearch": noSearch.value,
-          "imageUrl": imageUrl.value
+          "imageUrl": imageUrl.value,
+          "gpt4turbo": useGpt4Turbo.value
         },
         headers: _authHeaders);
 
