@@ -205,13 +205,23 @@ class Controller extends GetxController {
       Message(
           role: Message.roleSystem,
           type: Message.typeAdditionalInstructions,
-          content: sydneyService.useGpt4Turbo.value
-              ? Message.defaultGpt4TurboSystemMessage
-              : Message.defaultSystemMessage)
+          content: sydneyService.systemMessage)
     ];
   }
 
   void setPrompt(String prompt) {
     promptController.text = prompt;
+  }
+
+  void updateSystemMessage() {
+    if (isGenerating.value) return;
+    if (messages.isEmpty) return;
+    if (messages.first.role != Message.roleSystem) return;
+    if (messages.first.type != Message.typeAdditionalInstructions) return;
+
+    messages.first = Message(
+        role: Message.roleSystem,
+        type: Message.typeAdditionalInstructions,
+        content: sydneyService.systemMessage);
   }
 }

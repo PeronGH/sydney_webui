@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/http.dart';
 
 class SydneyService extends GetConnect {
@@ -55,6 +56,10 @@ class SydneyService extends GetConnect {
 
   Map<String, String> get _authHeaders =>
       {"Authorization": "Bearer $accessToken"};
+
+  String get systemMessage => useGpt4Turbo.value
+      ? Message.defaultGpt4TurboSystemMessage
+      : Message.defaultSystemMessage;
 
   // Methods
   Stream<MessageEvent> askStream(
