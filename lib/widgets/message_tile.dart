@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' as md;
 import 'package:get/get.dart';
+import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/models/message.dart';
-import 'package:sydney_webui/utils/array.dart';
 import 'package:sydney_webui/utils/url.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
 
 class MessageTile extends StatelessWidget {
-  const MessageTile(
-      {Key? key, required this.message, this.editButton, this.deleteButton})
-      : super(key: key);
+  const MessageTile({
+    Key? key,
+    required this.message,
+    required this.index,
+    this.isBeingGenerated = false,
+  }) : super(key: key);
 
   final Message message;
-  final Widget? editButton;
-  final Widget? deleteButton;
+  final int index;
+  final bool isBeingGenerated;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<Controller>();
+
     final shouldExpand = message.type == Message.typeMessage ||
         message.type == Message.typeTyping ||
         message.type == Message.typeError ||
@@ -38,6 +43,29 @@ class MessageTile extends StatelessWidget {
       onPressed: copyContent,
       icon: const Icon(Icons.copy_rounded),
     );
+
+    final deleteButton = Obx(() => IconButton(
+          onPressed: controller.isGenerating.value
+              ? null
+              : () => controller.deleteMessageAt(index),
+          icon: const Icon(Icons.delete_outline),
+        ));
+
+    final editButton = Obx(() => IconButton(
+          onPressed: controller.isGenerating.value
+              ? null
+              : () => controller.editMessageAt(index),
+          icon: const Icon(Icons.edit_outlined),
+        ));
+
+    final List<Widget> actions = controller.isGenerating.value
+        ? []
+        : switch (message.role) {
+            Message.roleUser => [copyButton, editButton, deleteButton],
+            Message.roleAssistant => [copyButton, deleteButton],
+            Message.roleSystem => [copyButton],
+            _ => []
+          };
 
     final images = message.imageUrls != null && message.imageUrls!.isNotEmpty
         ? [
@@ -78,14 +106,7 @@ class MessageTile extends StatelessWidget {
             const SizedBox(width: 8),
             Text(message.type)
           ]),
-          Row(
-              children: switch (message.role) {
-            Message.roleUser =>
-              [copyButton, editButton, deleteButton].filterNonNull(),
-            Message.roleAssistant => [copyButton, deleteButton].filterNonNull(),
-            Message.roleSystem => [copyButton].filterNonNull(),
-            _ => [],
-          })
+          Row(children: actions)
         ],
       ),
       initiallyExpanded: shouldExpand,

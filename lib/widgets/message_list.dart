@@ -21,11 +21,15 @@ class MessageList extends StatelessWidget {
                   // Last one is the message being generated or user input
                   return Obx(() => controller.isGenerating.value
                       ? MessageTile(
+                          index: index,
+                          isBeingGenerated: true,
                           message: Message(
                               role: Message.roleAssistant,
                               type: controller.generatingType.value,
                               content: controller.generatingContent.value))
                       : MessageTile(
+                          index: index,
+                          isBeingGenerated: true,
                           message: Message(
                               role: Message.roleUser,
                               type: Message.typeTyping,
@@ -34,21 +38,9 @@ class MessageList extends StatelessWidget {
 
                 // Render normal message
                 final message = controller.messages[index];
-
                 return MessageTile(
+                  index: index,
                   message: message,
-                  deleteButton: Obx(() => IconButton(
-                        onPressed: controller.isGenerating.value
-                            ? null
-                            : () => controller.deleteMessageAt(index),
-                        icon: const Icon(Icons.delete_outline),
-                      )),
-                  editButton: Obx(() => IconButton(
-                        onPressed: controller.isGenerating.value
-                            ? null
-                            : () => controller.editMessageAt(index),
-                        icon: const Icon(Icons.edit_outlined),
-                      )),
                 );
               },
             );
