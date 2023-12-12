@@ -48,6 +48,22 @@ class Message {
   }) {
     assert(role == roleUser || role == roleAssistant || role == roleSystem);
   }
+
+  @override
+  operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Message &&
+        other.role == role &&
+        other.type == type &&
+        other.content == content &&
+        other.imageUrls == imageUrls; // TODO: deep compare imageUrls
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(role, type, content, imageUrls);
+  }
 }
 
 extension ToContext on List<Message> {
