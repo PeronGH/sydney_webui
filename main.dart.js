@@ -84621,28 +84621,30 @@ p=t.y
 A.GU(r,new A.afl(m),p)
 A.GU(q,new A.afm(m),p)},
 xC(a,b){return this.aeM(a,b)},
-aeM(a,b){var $async$xC=A.K(function(c,d){switch(c){case 2:n=q
+aeM(a,b){var $async$xC=A.K(function(c,a0){switch(c){case 2:n=q
 s=n.pop()
 break
-case 1:o=d
-s=p}while(true)switch(s){case 0:e=m.go
-e=A.ahs(e.gl(e))
-e=e==null?null:e.X("/chat/stream")
-e.toString
+case 1:o=a0
+s=p}while(true)switch(s){case 0:d=m.go
+d=A.ahs(d.gl(d))
+d=d==null?null:d.X("/chat/stream")
+d.toString
 l=m.k1
-k=m.k2
-j=m.k4
-i=m.k3
-h=t.N
-g=A.aSu(e,A.j(["cookies",l.gl(l),"prompt",b,"context",a,"noSearch",k.gl(k),"imageUrl",j.gl(j),"gpt4turbo",i.gl(i)],h,t.z),A.j(["Authorization","Bearer "+m.id.k(0)],h,h))
-f=A.H_(g.a)
-m.ok=g.b
+l=l.gl(l)
+k=m.k3
+j=k.gl(k)?"Precise":"Creative"
+i=m.k2
+h=m.k4
+g=t.N
+f=A.aSu(d,A.j(["cookies",l,"prompt",b,"context",a,"conversationStyle",j,"noSearch",i.gl(i),"imageUrl",h.gl(h),"gpt4turbo",k.gl(k)],g,t.z),A.j(["Authorization","Bearer "+m.id.k(0)],g,g))
+e=A.H_(f.a)
+m.ok=f.b
 s=3
 q=[1]
-return A.er(A.aAX(f.aeO(new A.afh(),t.SA)),$async$xC,r)
+return A.er(A.aAX(e.aeO(new A.afh(),t.SA)),$async$xC,r)
 case 3:case 1:return A.er(null,0,r)
 case 2:return A.er(o,1,r)}})
-var s=0,r=A.av4($async$xC,t.SA),q,p=2,o,n=[],m=this,l,k,j,i,h,g,f,e
+var s=0,r=A.av4($async$xC,t.SA),q,p=2,o,n=[],m=this,l,k,j,i,h,g,f,e,d
 return A.av8(r)},
 A5(a){return this.anQ(a)},
 anQ(a){var s=0,r=A.O(t.N),q,p=this,o,n,m,l,k
