@@ -203,7 +203,9 @@ class Controller extends GetxController {
       Message(
           role: Message.roleSystem,
           type: Message.typeAdditionalInstructions,
-          content: Message.defaultSystemMessage)
+          content: sydneyService.useGpt4Turbo.value
+              ? Message.defaultGpt4TurboSystemMessage
+              : Message.defaultSystemMessage)
     ];
   }
 

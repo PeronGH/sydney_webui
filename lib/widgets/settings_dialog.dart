@@ -74,6 +74,9 @@ class SettingsDialog extends StatelessWidget {
             controller.sydneyService.noSearch.value = noSearch.value;
             controller.sydneyService.useGpt4Turbo.value = useGpt4Turbo.value;
             Get.back();
+
+            // Restart conversation
+            controller.newConversation();
           },
         ),
       ],
