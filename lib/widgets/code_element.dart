@@ -8,18 +8,29 @@ import 'package:google_fonts/google_fonts.dart';
 class CodeElementBuilder extends MarkdownElementBuilder {
   @override
   Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
+    final textContent = element.textContent;
+
     var language = '';
 
-    if (element.attributes['class'] != null) {
+    if (element.attributes['class']?.startsWith('language-') ?? false) {
       String lg = element.attributes['class'] as String;
-      language = lg.substring(9);
+      language = lg.substring('language-'.length);
     }
+
+    if (language.isEmpty && !textContent.contains("\n")) {
+      // handle inline code
+      return Text("`$textContent`",
+          style: preferredStyle?.copyWith(
+              fontFamily: GoogleFonts.robotoMono().fontFamily));
+    }
+
+    // render code block
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       // https://stackoverflow.com/questions/59592640/how-to-add-code-syntax-highlighter-to-flutter-markdown
       child: HighlightView(
         // The original code to be highlighted
-        element.textContent,
+        textContent,
 
         // Specify language
         // It is recommended to give it a value for performance
@@ -29,7 +40,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
         theme: atomOneDarkTheme,
 
         // Specify padding
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
         // Specify text style
         textStyle: GoogleFonts.robotoMono(),

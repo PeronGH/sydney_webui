@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' as md;
 import 'package:get/get.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/url.dart';
@@ -140,9 +141,13 @@ class MessageTile extends StatelessWidget {
       expandedAlignment: Alignment.topLeft,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 16),
       children: [
-        md.MarkdownBody(selectable: true, data: message.content, builders: {
-          'code': CodeElementBuilder(),
-        }),
+        md.MarkdownBody(
+            selectable: true,
+            data: message.content,
+            extensionSet: md.ExtensionSet.gitHubFlavored,
+            builders: {
+              'code': CodeElementBuilder(),
+            }),
         ...typeSpecificContent,
         ...images
       ],
