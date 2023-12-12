@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' as md;
@@ -58,7 +60,7 @@ class MessageTile extends StatelessWidget {
           icon: const Icon(Icons.edit_outlined),
         ));
 
-    final List<Widget> actions = controller.isGenerating.value
+    final List<Widget> actions = isBeingGenerated
         ? []
         : switch (message.role) {
             Message.roleUser => [copyButton, editButton, deleteButton],
@@ -66,6 +68,31 @@ class MessageTile extends StatelessWidget {
             Message.roleSystem => [copyButton],
             _ => []
           };
+
+    List<String> parseSuggestedResponses(String content) {
+      try {
+        final responses = jsonDecode(content) as List<dynamic>;
+        return responses.cast<String>().toList();
+      } catch (_) {
+        return [];
+      }
+    }
+
+    final List<Widget> typeSpecificContent = switch (message.type) {
+      Message.typeSuggestedResponses => [
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                  children: parseSuggestedResponses(message.content)
+                      .map((response) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                              onPressed: () => controller.setPrompt(response),
+                              child: Text(response))))
+                      .toList()))
+        ],
+      _ => []
+    };
 
     final images = message.imageUrls != null && message.imageUrls!.isNotEmpty
         ? [
@@ -116,6 +143,7 @@ class MessageTile extends StatelessWidget {
         md.MarkdownBody(selectable: true, data: message.content, builders: {
           'code': CodeElementBuilder(),
         }),
+        ...typeSpecificContent,
         ...images
       ],
     );

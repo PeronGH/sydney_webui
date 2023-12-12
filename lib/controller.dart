@@ -72,7 +72,7 @@ class Controller extends GetxController {
               curve: Curves.easeOut,
             ));
 
-    promptController.clear();
+    setPrompt("");
 
     try {
       await for (final event
@@ -117,7 +117,7 @@ class Controller extends GetxController {
 
   void editMessageAt(int index) {
     final removed = deleteMessageAt(index);
-    promptController.text = removed.content;
+    setPrompt(removed.content);
   }
 
   // Helper methods
@@ -196,7 +196,7 @@ class Controller extends GetxController {
 
   void newConversation() {
     // Clear prompt and image
-    promptController.clear();
+    setPrompt("");
     sydneyService.imageUrl.value = '';
 
     messages.value = <Message>[
@@ -205,5 +205,9 @@ class Controller extends GetxController {
           type: Message.typeAdditionalInstructions,
           content: Message.defaultSystemMessage)
     ];
+  }
+
+  void setPrompt(String prompt) {
+    promptController.text = prompt;
   }
 }
