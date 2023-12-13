@@ -69,7 +69,6 @@ class SydneyService extends GetConnect {
           "cookies": cookies.value,
           "prompt": prompt,
           "context": context,
-          "conversationStyle": useGpt4Turbo.value ? 'Precise' : 'Creative',
           "noSearch": noSearch.value,
           "imageUrl": imageUrl.value,
           "gpt4turbo": useGpt4Turbo.value
