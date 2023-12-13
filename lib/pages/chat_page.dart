@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sydney_webui/controller.dart';
+import 'package:sydney_webui/widgets/chat_drawer.dart';
 import 'package:sydney_webui/widgets/message_list.dart';
 import 'package:sydney_webui/widgets/prompt_input.dart';
 import 'package:sydney_webui/widgets/settings_dialog.dart';
@@ -24,22 +25,7 @@ class ChatPage extends StatelessWidget {
                 icon: const Icon(Icons.settings))
           ],
         ),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              Obx(() => ListTile(
-                    leading: const Icon(Icons.add),
-                    title: const Text('New Conversation'),
-                    onTap: controller.isGenerating.value
-                        ? null
-                        : () {
-                            controller.newConversation();
-                            Get.back();
-                          },
-                  )),
-            ],
-          ),
-        ),
+        drawer: const ChatDrawer(),
         body: const Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(

@@ -64,6 +64,24 @@ class Message {
   int get hashCode {
     return Object.hash(role, type, content, imageUrls);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'role': role,
+      'type': type,
+      'content': content,
+      'imageUrls': imageUrls,
+    };
+  }
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      role: json['role'],
+      type: json['type'],
+      content: json['content'],
+      imageUrls: json['imageUrls']?.cast<String>(),
+    );
+  }
 }
 
 extension ToContext on List<Message> {
