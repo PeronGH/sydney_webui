@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:image/image.dart' as img;
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -81,7 +82,15 @@ class SydneyService extends GetConnect {
         (event) => MessageEvent(event.type, jsonDecode(event.content)));
   }
 
-  Future<String> uploadImage(Uint8List image) async {
+  Future<String> uploadImage(Uint8List bytes) async {
+    final processImage = img.Command()
+      ..decodeImage(bytes)
+      ..encodeJpg(quality: 90);
+
+    final imageResult = await processImage.executeThread();
+
+    final image = imageResult.outputBytes;
+
     final form = FormData({
       "cookies": cookies.value,
       "file": MultipartFile(image, filename: "image.png")
@@ -89,6 +98,10 @@ class SydneyService extends GetConnect {
 
     final resp =
         await post(_uploadImageUrl!.toString(), form, headers: _authHeaders);
+
+    if (resp.statusCode != 200) {
+      throw Exception("Failed to upload image: ${resp.statusCode}");
+    }
 
     return resp.bodyString!;
   }

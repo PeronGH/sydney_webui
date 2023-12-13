@@ -37,6 +37,8 @@ dependencies:
     google_fonts:
     markdown:
     flutter_highlighter:
+    pasteboard:
+    image:
 
 dev_dependencies:
     flutter_test:

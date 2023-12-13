@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pasteboard/pasteboard.dart';
 import 'package:sydney_webui/controller.dart';
 
 class ImageUploadDialog extends StatelessWidget {
@@ -20,17 +21,40 @@ class ImageUploadDialog extends StatelessWidget {
       imageUrl.value = textEditController.text;
     });
 
-    void uploadImage() async {
+    void pickAndUploadImage() async {
       isUploading.value = true;
 
-      final file = await FilePicker.platform.pickFiles(type: FileType.image);
-      if (file == null) {
-        isUploading.value = false;
-        return;
-      }
       try {
+        final result =
+            await FilePicker.platform.pickFiles(type: FileType.image);
+
+        if (result == null) {
+          isUploading.value = false;
+          return;
+        }
+
+        textEditController.text = await controller.sydneyService
+            .uploadImage(result.files.first.bytes!);
+      } catch (e) {
+        Get.snackbar('Error occurred', 'Failed to upload image: $e');
+      } finally {
+        isUploading.value = false;
+      }
+    }
+
+    void pasteAndUploadImage() async {
+      isUploading.value = true;
+
+      try {
+        final image = await Pasteboard.image;
+
+        if (image == null) {
+          isUploading.value = false;
+          return;
+        }
+
         textEditController.text =
-            await controller.sydneyService.uploadImage(file.files.first.bytes!);
+            await controller.sydneyService.uploadImage(image);
       } catch (e) {
         Get.snackbar('Error occurred', 'Failed to upload image: $e');
       } finally {
@@ -63,7 +87,26 @@ class ImageUploadDialog extends StatelessWidget {
                     )),
                 const SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: uploadImage,
+                  onPressed: pasteAndUploadImage,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Obx(
+                        () => isUploading.value
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator())
+                            : const Icon(Icons.paste),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text('Paste Image')
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: pickAndUploadImage,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -76,7 +119,7 @@ class ImageUploadDialog extends StatelessWidget {
                             : const Icon(Icons.upload_file),
                       ),
                       const SizedBox(width: 8),
-                      const Text('Upload Image')
+                      const Text('Pick Image')
                     ],
                   ),
                 ),
