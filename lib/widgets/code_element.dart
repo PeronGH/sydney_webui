@@ -12,16 +12,16 @@ class CodeElementBuilder extends MarkdownElementBuilder {
   Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
     final textContent = element.textContent;
 
+    if (!textContent.endsWith("\n")) {
+      // handle inline code
+      return Text("`$textContent`", style: GoogleFonts.robotoMono());
+    }
+
     var language = '';
 
     if (element.attributes['class']?.startsWith('language-') ?? false) {
       String lg = element.attributes['class'] as String;
       language = lg.substring('language-'.length);
-    }
-
-    if (language.isEmpty && !textContent.contains("\n")) {
-      // handle inline code
-      return Text("`$textContent`", style: GoogleFonts.robotoMono());
     }
 
     void copyContent() async {
