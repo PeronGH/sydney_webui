@@ -21,9 +21,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
 
     if (language.isEmpty && !textContent.contains("\n")) {
       // handle inline code
-      return Text("`$textContent`",
-          style: preferredStyle?.copyWith(
-              fontFamily: GoogleFonts.robotoMono().fontFamily));
+      return Text("`$textContent`", style: GoogleFonts.robotoMono());
     }
 
     void copyContent() async {
@@ -56,26 +54,28 @@ class CodeElementBuilder extends MarkdownElementBuilder {
           ),
         ),
         // https://stackoverflow.com/questions/59592640/how-to-add-code-syntax-highlighter-to-flutter-markdown
-        HighlightView(
-          // The original code to be highlighted
-          textContent.trim(),
+        SizedBox(
+            width: double.infinity,
+            child: HighlightView(
+              // The original code to be highlighted
+              textContent.trim(),
 
-          // Specify language
-          // It is recommended to give it a value for performance
-          language: language,
+              // Specify language
+              // It is recommended to give it a value for performance
+              language: language,
 
-          // Specify highlight theme
-          theme: atomOneDarkTheme,
+              // Specify highlight theme
+              theme: atomOneDarkTheme,
 
-          // Specify padding
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              // Specify padding
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-          // Specify text style
-          textStyle: GoogleFonts.robotoMono(),
+              // Specify text style
+              textStyle: GoogleFonts.robotoMono(),
 
-          // Specify tab size
-          tabSize: 4,
-        )
+              // Specify tab size
+              tabSize: 4,
+            ))
       ],
     );
   }
