@@ -40,14 +40,12 @@ class Message {
   final String content;
   final List<String>? imageUrls;
 
-  Message({
+  const Message({
     required this.role,
     required this.type,
     required this.content,
     this.imageUrls,
-  }) {
-    assert(role == roleUser || role == roleAssistant || role == roleSystem);
-  }
+  }) : assert(role == roleUser || role == roleAssistant || role == roleSystem);
 
   @override
   operator ==(Object other) {
