@@ -6,6 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sydney_webui/utils/string.dart';
 
 class CodeElementBuilder extends MarkdownElementBuilder {
   @override
@@ -58,7 +59,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
             width: double.infinity,
             child: HighlightView(
               // The original code to be highlighted
-              textContent.trim(),
+              textContent.removeSuffix('\n'),
 
               // Specify language
               // It is recommended to give it a value for performance
