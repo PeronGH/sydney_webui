@@ -18,8 +18,8 @@ class MessageList extends StatelessWidget {
               itemCount: controller.messages.length + 1,
               itemBuilder: (context, index) {
                 if (index == controller.messages.length) {
-                  // Last one is the message being generated or user input
                   return Obx(() => controller.isGenerating.value
+                      // The message being generated
                       ? MessageTile(
                           index: index,
                           isBeingGenerated: true,
@@ -27,13 +27,18 @@ class MessageList extends StatelessWidget {
                               role: Message.roleAssistant,
                               type: controller.generatingType.value,
                               content: controller.generatingContent.value))
+                      // User input
                       : MessageTile(
                           index: index,
                           isBeingGenerated: true,
                           message: Message(
-                              role: Message.roleUser,
-                              type: Message.typeTyping,
-                              content: controller.prompt.value)));
+                            role: Message.roleUser,
+                            type: Message.typeTyping,
+                            content: controller.prompt.value,
+                            imageUrls: controller.sydneyService.imageUrl.isEmpty
+                                ? null
+                                : [controller.sydneyService.imageUrl.value],
+                          )));
                 }
 
                 // Render normal message
