@@ -40,7 +40,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
         Container(
           color: Colors.grey[900],
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.only(left: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
