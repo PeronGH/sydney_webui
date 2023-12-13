@@ -37,42 +37,46 @@ class CodeElementBuilder extends MarkdownElementBuilder {
     }
 
     // render code block
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      // https://stackoverflow.com/questions/59592640/how-to-add-code-syntax-highlighter-to-flutter-markdown
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(language.isEmpty ? 'code' : language,
-                  style: GoogleFonts.robotoMono()),
-              IconButton(
-                  onPressed: copyContent, icon: const Icon(Icons.copy_rounded)),
-            ],
+    return Column(
+      children: [
+        Container(
+          color: Colors.grey[900],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(language.isEmpty ? 'code' : language,
+                    style: GoogleFonts.robotoMono()),
+                IconButton(
+                    onPressed: copyContent,
+                    icon: const Icon(Icons.copy_rounded)),
+              ],
+            ),
           ),
-          HighlightView(
-            // The original code to be highlighted
-            textContent.trim(),
+        ),
+        // https://stackoverflow.com/questions/59592640/how-to-add-code-syntax-highlighter-to-flutter-markdown
+        HighlightView(
+          // The original code to be highlighted
+          textContent.trim(),
 
-            // Specify language
-            // It is recommended to give it a value for performance
-            language: language,
+          // Specify language
+          // It is recommended to give it a value for performance
+          language: language,
 
-            // Specify highlight theme
-            theme: atomOneDarkTheme,
+          // Specify highlight theme
+          theme: atomOneDarkTheme,
 
-            // Specify padding
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          // Specify padding
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-            // Specify text style
-            textStyle: GoogleFonts.robotoMono(),
+          // Specify text style
+          textStyle: GoogleFonts.robotoMono(),
 
-            // Specify tab size
-            tabSize: 4,
-          )
-        ],
-      ),
+          // Specify tab size
+          tabSize: 4,
+        )
+      ],
     );
   }
 }
