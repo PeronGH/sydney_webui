@@ -25,11 +25,7 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<Controller>();
 
-    final shouldExpand = isBeingGenerated ||
-        message.type == Message.typeMessage ||
-        message.type == Message.typeTyping ||
-        message.type == Message.typeError ||
-        message.type == Message.typeGenerativeImage;
+    final shouldExpand = message.role != Message.roleSystem;
 
     void copyContent() async {
       try {
