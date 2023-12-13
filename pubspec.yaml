@@ -39,6 +39,7 @@ dependencies:
     flutter_highlighter:
     pasteboard:
     image:
+    flutter_markdown_latex:
 
 dev_dependencies:
     flutter_test:

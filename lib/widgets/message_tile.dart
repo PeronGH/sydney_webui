@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/models/message.dart';
+import 'package:sydney_webui/utils/latex.dart';
 import 'package:sydney_webui/utils/url.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
+import 'package:flutter_markdown_latex/flutter_markdown_latex.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({
@@ -140,9 +142,16 @@ class MessageTile extends StatelessWidget {
         md.MarkdownBody(
             selectable: true,
             data: message.content,
-            extensionSet: md.ExtensionSet.gitHubFlavored,
+            extensionSet: md.ExtensionSet([
+              ...md.ExtensionSet.gitHubFlavored.blockSyntaxes,
+              BingLatexBlockSyntax()
+            ], [
+              ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
+              BingLatexInlineSyntax()
+            ]),
             builders: {
               'code': CodeElementBuilder(),
+              'latex': LatexElementBuilder(),
             }),
         ...typeSpecificContent,
         ...images
