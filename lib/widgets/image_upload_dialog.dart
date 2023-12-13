@@ -30,6 +30,7 @@ class ImageUploadDialog extends StatelessWidget {
 
         if (result == null) {
           isUploading.value = false;
+          Get.snackbar('Error occurred', 'No image selected');
           return;
         }
 
@@ -50,6 +51,7 @@ class ImageUploadDialog extends StatelessWidget {
 
         if (image == null) {
           isUploading.value = false;
+          Get.snackbar('Error occurred', 'No image found in clipboard');
           return;
         }
 
