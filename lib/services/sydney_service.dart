@@ -93,7 +93,7 @@ class SydneyService extends GetConnect {
 
     final form = FormData({
       "cookies": cookies.value,
-      "file": MultipartFile(image, filename: "image.png")
+      "file": MultipartFile(image, filename: "image.jpg")
     });
 
     final resp =
