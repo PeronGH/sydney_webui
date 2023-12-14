@@ -95,9 +95,8 @@ class Controller extends GetxController {
 
     if (removed.role == Message.roleSystem) return removed;
 
-    // remove any next assistant messages
-    while (index < messages.length &&
-        messages[index].role == Message.roleAssistant) {
+    // remove all following messages
+    while (index < messages.length) {
       messages.removeAt(index);
     }
 
