@@ -76,56 +76,59 @@ class ImageUploadDialog extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Obx(() => ElevatedButton(
-                      onPressed: isUploading.value
-                          ? null
-                          : () {
-                              textEditController.clear();
-                            },
-                      child: const Text('Clear'),
-                    )),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: pasteAndUploadImage,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Obx(
-                        () => isUploading.value
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator())
-                            : const Icon(Icons.paste),
-                      ),
-                      const SizedBox(width: 8),
-                      const Text('Paste Image')
-                    ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(() => ElevatedButton(
+                        onPressed: isUploading.value
+                            ? null
+                            : () {
+                                textEditController.clear();
+                              },
+                        child: const Text('Clear'),
+                      )),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: pasteAndUploadImage,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Obx(
+                          () => isUploading.value
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator())
+                              : const Icon(Icons.paste),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text('Paste Image')
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: pickAndUploadImage,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Obx(
-                        () => isUploading.value
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator())
-                            : const Icon(Icons.upload_file),
-                      ),
-                      const SizedBox(width: 8),
-                      const Text('Pick Image')
-                    ],
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: pickAndUploadImage,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Obx(
+                          () => isUploading.value
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator())
+                              : const Icon(Icons.upload_file),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text('Pick Image')
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
