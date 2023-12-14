@@ -14,7 +14,7 @@ class PromptInput extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 128.0,
+        maxHeight: 256.0,
       ),
       child: CallbackShortcuts(
         bindings: {
@@ -28,6 +28,7 @@ class PromptInput extends StatelessWidget {
           keyboardType: TextInputType.multiline,
           maxLines: null,
           style: TextStyle(color: colorScheme.onSurface),
+          cursorOpacityAnimates: true,
           decoration: InputDecoration(
             hintText: 'Enter a prompt here',
             hintStyle: TextStyle(color: colorScheme.onSurfaceVariant),
