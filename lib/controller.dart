@@ -287,6 +287,8 @@ class Controller extends GetxController {
   }
 
   void loadConversation(String conversationId) {
+    if (isGenerating.value) return;
+
     final conversation = conversationHistory[conversationId];
     if (conversation == null) return;
 
@@ -295,6 +297,8 @@ class Controller extends GetxController {
   }
 
   void deleteConversation(String conversationId) {
+    if (isGenerating.value) return;
+
     if (conversationId == currentConversationId.value) {
       newConversation();
     }
