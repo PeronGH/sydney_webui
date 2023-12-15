@@ -229,7 +229,7 @@ class Controller extends GetxController {
     sydneyService.imageUrl.value = '';
 
     // Update conversation id
-    currentConversationId.value = DateTime.now().toIso8601String();
+    currentConversationId.value = DateTime.now().toString();
 
     // Reset message list
     messages.value = <Message>[
