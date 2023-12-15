@@ -1,15 +1,16 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/services/sydney_service.dart';
 
 class Controller extends GetxController {
   // Constants
-  static const String idMessageList = 'messageList';
+  static const idMessageList = 'messageList';
+  static const idConversationList = 'conversationList';
 
   // Services
   final sydneyService = SydneyService();
@@ -23,6 +24,9 @@ class Controller extends GetxController {
   final prompt = ''.obs;
   final messages = <Message>[].obs;
 
+  final currentConversationId = ''.obs;
+  final conversationHistory = <String, List<Message>>{}.obs;
+
   final generatingType = ''.obs;
   final generatingContent = ''.obs;
 
@@ -33,6 +37,7 @@ class Controller extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    final box = GetStorage();
 
     // Update prompt reactive variable when prompt controller changes
     promptController.addListener(() {
@@ -43,8 +48,30 @@ class Controller extends GetxController {
     // Update message list when messages changes
     ever(messages, (_) => update([idMessageList]));
 
-    // initialize with default message
+    // Initialize with default message
     newConversation();
+
+    // Update conversation id when id or list changes
+    ever(currentConversationId, (_) => update([idConversationList]));
+    ever(conversationHistory, (_) => update([idConversationList]));
+
+    // Load conversation history
+    final Map<String, dynamic>? history = box.read('conversationHistory');
+    if (history != null) {
+      conversationHistory.value = history.map((key, value) => MapEntry(
+          key,
+          (value as List<dynamic>)
+              .map((e) => Message.fromJson(e))
+              .toList(growable: false)));
+    }
+
+    // Save conversation history when there is any change
+    ever(conversationHistory,
+        (value) => box.write('conversationHistory', value));
+
+    // Save current conversation once there is any change
+    ever(messages,
+        (value) => conversationHistory[currentConversationId.value] = value);
   }
 
   void submit() async {
@@ -201,6 +228,10 @@ class Controller extends GetxController {
     setPrompt("");
     sydneyService.imageUrl.value = '';
 
+    // Update conversation id
+    currentConversationId.value = DateTime.now().toIso8601String();
+
+    // Reset message list
     messages.value = <Message>[
       Message(
           role: Message.roleSystem,
@@ -244,11 +275,29 @@ class Controller extends GetxController {
       final content = data?.text ?? '';
       final messages = jsonDecode(content) as List<dynamic>;
       final newMessages = messages.map((message) => Message.fromJson(message));
+
+      newConversation();
       this.messages.value = newMessages.toList();
+
       Get.snackbar('Imported', 'Conversation has been imported');
     } catch (e) {
       Get.snackbar('Error occurred', 'Failed to import conversation: $e');
       e.printError();
     }
+  }
+
+  void loadConversation(String conversationId) {
+    final conversation = conversationHistory[conversationId];
+    if (conversation == null) return;
+
+    currentConversationId.value = conversationId;
+    messages.value = conversation;
+  }
+
+  void deleteConversation(String conversationId) {
+    if (conversationId == currentConversationId.value) {
+      newConversation();
+    }
+    conversationHistory.remove(conversationId);
   }
 }

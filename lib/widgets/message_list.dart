@@ -14,8 +14,7 @@ class MessageList extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 1024),
         child: GetBuilder<Controller>(
             id: Controller.idMessageList,
-            builder: (controller) {
-              return ListView.builder(
+            builder: (controller) => ListView.builder(
                 controller: controller.scrollController,
                 itemCount: controller.messages.length + 1,
                 itemBuilder: (context, index) {
@@ -51,8 +50,8 @@ class MessageList extends StatelessWidget {
                     message: message,
                   );
                 },
-              );
-            }),
+              )
+            ),
       ),
     );
   }
