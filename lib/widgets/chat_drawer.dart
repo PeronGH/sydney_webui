@@ -39,8 +39,10 @@ class ChatDrawer extends StatelessWidget {
       child: GetBuilder(
           id: Controller.idConversationList,
           builder: (Controller controller) {
-            final conversationIds =
-                controller.conversationHistory.keys.toList(growable: false);
+            final conversationIds = controller.conversationHistory.keys
+                .toList(growable: false)
+                .reversed
+                .toList(growable: false);
 
             return ListView.builder(
                 itemCount: fixedChildren.length + conversationIds.length,
