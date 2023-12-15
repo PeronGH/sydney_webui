@@ -46,10 +46,13 @@ class CodeElementBuilder extends MarkdownElementBuilder {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(language.isEmpty ? 'code' : language,
-                    style: GoogleFonts.robotoMono()),
+                    style: GoogleFonts.robotoMono()
+                        .copyWith(color: Colors.grey[400])),
                 IconButton(
-                    onPressed: copyContent,
-                    icon: const Icon(Icons.copy_rounded)),
+                  onPressed: copyContent,
+                  icon: const Icon(Icons.copy_rounded),
+                  color: Colors.grey[400],
+                ),
               ],
             ),
           ),
