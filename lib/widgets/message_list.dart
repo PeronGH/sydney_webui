@@ -55,7 +55,7 @@ class MessageList extends StatelessWidget {
                     children: [
                       Flexible(
                           child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 800),
+                        constraints: const BoxConstraints(maxWidth: 1024),
                         child: messageTile,
                       ))
                     ],
