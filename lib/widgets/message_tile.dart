@@ -145,7 +145,7 @@ class MessageTile extends StatelessWidget {
             data: message.content,
             extensionSet: md.ExtensionSet([
               ...md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-              BingLatexBlockSyntax()
+              BingLatexBlockSyntax(),
             ], [
               ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
               BingLatexInlineSyntax()
@@ -155,7 +155,7 @@ class MessageTile extends StatelessWidget {
             },
             builders: {
               'code': CodeElementBuilder(),
-              'latex': LatexElementBuilder(),
+              'latex': LatexElementBuilder(textStyle: Get.textTheme.bodyLarge),
             }),
         ...typeSpecificContent,
         ...images
