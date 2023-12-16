@@ -293,7 +293,7 @@ class Controller extends GetxController {
     if (conversation == null) return;
 
     currentConversationId.value = conversationId;
-    messages.value = conversation;
+    messages.value = conversation.toList();
   }
 
   void deleteConversation(String conversationId) {
