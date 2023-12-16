@@ -78,8 +78,7 @@ class SydneyService extends GetConnect {
 
     _cancelStream = cancellable.cancel;
 
-    yield* cancellable.stream.asyncMap(
-        (event) => MessageEvent(event.type, jsonDecode(event.content)));
+    yield* cancellable.stream;
   }
 
   Future<String> uploadImage(Uint8List bytes) async {
