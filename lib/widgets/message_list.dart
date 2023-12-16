@@ -10,16 +10,16 @@ class MessageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1024),
-        child: GetBuilder<Controller>(
-            id: Controller.idMessageList,
-            builder: (controller) => ListView.builder(
+      child: GetBuilder<Controller>(
+          id: Controller.idMessageList,
+          builder: (controller) => ListView.builder(
                 controller: controller.scrollController,
                 itemCount: controller.messages.length + 1,
                 itemBuilder: (context, index) {
+                  Widget messageTile;
+
                   if (index == controller.messages.length) {
-                    return Obx(() => controller.isGenerating.value
+                    messageTile = Obx(() => controller.isGenerating.value
                         // The message being generated
                         ? MessageTile(
                             index: index,
@@ -41,18 +41,27 @@ class MessageList extends StatelessWidget {
                                   ? null
                                   : [controller.sydneyService.imageUrl.value],
                             )));
+                  } else {
+                    // Render normal message
+                    final message = controller.messages[index];
+                    messageTile = MessageTile(
+                      index: index,
+                      message: message,
+                    );
                   }
 
-                  // Render normal message
-                  final message = controller.messages[index];
-                  return MessageTile(
-                    index: index,
-                    message: message,
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                          child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 800),
+                        child: messageTile,
+                      ))
+                    ],
                   );
                 },
-              )
-            ),
-      ),
+              )),
     );
   }
 }

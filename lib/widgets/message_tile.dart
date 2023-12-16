@@ -119,6 +119,7 @@ class MessageTile extends StatelessWidget {
 
     return ExpansionTile(
       shape: const RoundedRectangleBorder(),
+      maintainState: true,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
