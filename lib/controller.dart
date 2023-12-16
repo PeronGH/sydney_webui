@@ -69,9 +69,12 @@ class Controller extends GetxController {
     ever(conversationHistory,
         (value) => box.write('conversationHistory', value));
 
-    // Save current conversation once there is any change
-    ever(messages,
-        (value) => conversationHistory[currentConversationId.value] = value);
+    // Save current conversation once there is any reply
+    ever(messages, (value) {
+      if (messages.any((msg) => msg.role == Message.roleAssistant)) {
+        conversationHistory[currentConversationId.value] = value;
+      }
+    });
   }
 
   void submit() async {
