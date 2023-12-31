@@ -148,6 +148,7 @@ class MessageTile extends StatelessWidget {
               BingLatexBlockSyntax(),
             ], [
               ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
+              LatexInlineSyntax(),
               BingLatexInlineSyntax()
             ]),
             onTapLink: (text, href, title) {
