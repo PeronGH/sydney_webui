@@ -143,6 +143,7 @@ class MessageTile extends StatelessWidget {
         md.MarkdownBody(
             selectable: true,
             data: message.content,
+            softLineBreak: true,
             extensionSet: md.ExtensionSet([
               ...md.ExtensionSet.gitHubFlavored.blockSyntaxes,
               BingLatexBlockSyntax(),
