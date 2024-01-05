@@ -11,5 +11,5 @@ Web UI for Sydney (Bing Chat).
 ## Deploy to Cloudflare Pages
 
 ```bash
-peanut -b production --web-renderer canvaskit --extra-args "--dart-define-from-file=config.json"
+peanut -b production --web-renderer canvaskit --extra-args "--dart-define-from-file=config.json" && git push origin production:production
 ```
