@@ -162,6 +162,11 @@ class Controller extends GetxController {
       case Message.typeSearchResult:
         if (generatingContent.value.startsWith(content)) return;
         break;
+      case Message.typeError:
+        // handle message revoke
+        if (content == Message.messageRevoke && prompt.value.isEmpty) {
+          setPrompt(Message.continueFromRevokeMessage);
+        }
       // handle image generation
       case Message.typeGenerativeImage:
         final index = messages.length;
