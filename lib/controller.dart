@@ -82,11 +82,24 @@ class Controller extends GetxController {
 
     isGenerating.value = true;
 
+    final userPrompt = prompt.value;
+    setPrompt("");
+    await _submit(userPrompt);
+
+    // handle message revoke
+    while (messages.last.type == Message.typeError &&
+        messages.last.content == Message.messageRevoke) {
+      await _submit(Message.continueFromRevokeMessage);
+    }
+
+    isGenerating.value = false;
+  }
+
+  Future<void> _submit(String userPrompt) async {
     // Generate context without prompt
     final context = messages.toContext();
 
     // Add prompt to message list as user message
-    final userPrompt = prompt.value;
     messages.add(Message(
         role: Message.roleUser,
         type: Message.typeMessage,
@@ -103,8 +116,6 @@ class Controller extends GetxController {
               curve: Curves.easeOut,
             ));
 
-    setPrompt("");
-
     try {
       await for (final event
           in sydneyService.askStream(prompt: userPrompt, context: context)) {
@@ -116,8 +127,6 @@ class Controller extends GetxController {
     }
 
     _saveGeneratedMessage();
-
-    isGenerating.value = false;
   }
 
   Message deleteMessageAt(int index) {
@@ -162,11 +171,6 @@ class Controller extends GetxController {
       case Message.typeSearchResult:
         if (generatingContent.value.startsWith(content)) return;
         break;
-      case Message.typeError:
-        // handle message revoke
-        if (content == Message.messageRevoke && prompt.value.isEmpty) {
-          setPrompt(Message.continueFromRevokeMessage);
-        }
       // handle image generation
       case Message.typeGenerativeImage:
         final index = messages.length;
