@@ -144,6 +144,11 @@ class MessageTile extends StatelessWidget {
             selectable: true,
             data: message.content,
             softLineBreak: true,
+            styleSheet: md.MarkdownStyleSheet(
+                blockquoteDecoration: BoxDecoration(
+              color: Get.theme.colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(8),
+            )),
             extensionSet: md.ExtensionSet([
               ...md.ExtensionSet.gitHubFlavored.blockSyntaxes,
               BingLatexBlockSyntax(),
