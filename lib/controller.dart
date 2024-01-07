@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sydney_webui/models/message.dart';
+import 'package:sydney_webui/services/sharegpt_service.dart';
 import 'package:sydney_webui/services/sydney_service.dart';
+import 'package:sydney_webui/utils/url.dart';
 
 class Controller extends GetxController {
   // Constants
@@ -14,6 +15,7 @@ class Controller extends GetxController {
 
   // Services
   final sydneyService = SydneyService();
+  final shareGptService = ShareGptService();
 
   // Controllers
   final promptController = TextEditingController();
@@ -272,36 +274,6 @@ class Controller extends GetxController {
         content: sydneyService.systemMessage);
   }
 
-  void copyConversation() {
-    try {
-      final content = jsonEncode(messages);
-      Clipboard.setData(ClipboardData(text: content));
-      Get.snackbar('Copied', 'Conversation has been copied to clipboard');
-    } catch (e) {
-      Get.snackbar('Error occurred', 'Failed to copy conversation: $e');
-      e.printError();
-    }
-  }
-
-  void importConversation() async {
-    if (isGenerating.value) return;
-
-    try {
-      final data = await Clipboard.getData('text/plain');
-      final content = data?.text ?? '';
-      final messages = jsonDecode(content) as List<dynamic>;
-      final newMessages = messages.map((message) => Message.fromJson(message));
-
-      newConversation();
-      this.messages.value = newMessages.toList();
-
-      Get.snackbar('Imported', 'Conversation has been imported');
-    } catch (e) {
-      Get.snackbar('Error occurred', 'Failed to import conversation: $e');
-      e.printError();
-    }
-  }
-
   void loadConversation(String conversationId) {
     if (isGenerating.value) return;
 
@@ -319,5 +291,18 @@ class Controller extends GetxController {
       newConversation();
     }
     conversationHistory.remove(conversationId);
+  }
+
+  void shareConversation() async {
+    if (isGenerating.value) return;
+
+    Get.snackbar('Uploading', 'Uploading conversation to ShareGPT...');
+    try {
+      final id = await shareGptService.uploadConversation(messages);
+      final url = 'https://shareg.pt/$id';
+      openUrl(url);
+    } catch (e) {
+      Get.snackbar('Error occurred', 'Failed to share conversation: $e');
+    }
   }
 }

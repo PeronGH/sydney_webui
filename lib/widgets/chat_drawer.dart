@@ -11,7 +11,7 @@ class ChatDrawer extends StatelessWidget {
 
     final fixedChildren = <Widget>[
       Obx(() => ListTile(
-            leading: const Icon(Icons.add),
+            leading: const Icon(Icons.add_box_outlined),
             title: const Text('New Conversation'),
             onTap: controller.isGenerating.value
                 ? null
@@ -20,17 +20,12 @@ class ChatDrawer extends StatelessWidget {
                     Get.back();
                   },
           )),
-      ListTile(
-        leading: const Icon(Icons.copy_all),
-        title: const Text('Copy Conversation'),
-        onTap: controller.copyConversation,
-      ),
       Obx(() => ListTile(
-            leading: const Icon(Icons.add_box_outlined),
-            title: const Text('Import Conversation'),
+            leading: const Icon(Icons.share_outlined),
+            title: const Text("Share Conversation"),
             onTap: controller.isGenerating.value
                 ? null
-                : controller.importConversation,
+                : controller.shareConversation,
           )),
       const Divider(),
     ];
