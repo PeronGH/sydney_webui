@@ -300,7 +300,7 @@ class Controller extends GetxController {
     try {
       final id = await shareGptService.uploadConversation(messages);
       final url = 'https://shareg.pt/$id';
-      openUrl(url);
+      await openUrl(url);
     } catch (e) {
       Get.snackbar('Error occurred', 'Failed to share conversation: $e');
     }
