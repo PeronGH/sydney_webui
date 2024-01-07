@@ -87,8 +87,12 @@ class Controller extends GetxController {
     await _submit(userPrompt);
 
     // handle message revoke
-    while (messages.last.type == Message.typeError &&
-        messages.last.content == Message.messageRevoke) {
+    for (var retries = 0;
+        retries < 3 &&
+            messages.isNotEmpty &&
+            messages.last.type == Message.typeError &&
+            messages.last.content == Message.messageRevoke;
+        retries++) {
       await _submit(Message.continueFromRevokeMessage);
     }
 
