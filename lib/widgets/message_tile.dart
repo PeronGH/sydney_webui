@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart' as md;
 import 'package:get/get.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/models/message.dart';
+import 'package:sydney_webui/utils/copy.dart';
 import 'package:sydney_webui/utils/latex.dart';
 import 'package:sydney_webui/utils/url.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
@@ -29,19 +29,8 @@ class MessageTile extends StatelessWidget {
 
     final shouldExpand = message.role != Message.roleSystem;
 
-    void copyContent() async {
-      try {
-        await Clipboard.setData(ClipboardData(text: message.content));
-        Get.snackbar('Copied',
-            'Message from ${message.role} has been copied to clipboard');
-      } catch (e) {
-        Get.snackbar(
-            'Error Occurred', 'Failed to copy message to clipboard: $e');
-      }
-    }
-
     final copyButton = IconButton(
-      onPressed: copyContent,
+      onPressed: () => copyContent(message.content),
       icon: const Icon(Icons.copy_rounded),
     );
 

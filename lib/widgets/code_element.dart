@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_highlighter/flutter_highlighter.dart';
 import 'package:flutter_highlighter/themes/atom-one-dark.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:get/get.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sydney_webui/utils/copy.dart';
 import 'package:sydney_webui/utils/string.dart';
 
 class CodeElementBuilder extends MarkdownElementBuilder {
@@ -25,16 +24,6 @@ class CodeElementBuilder extends MarkdownElementBuilder {
       language = lg.substring('language-'.length);
     }
 
-    void copyContent() async {
-      try {
-        await Clipboard.setData(ClipboardData(text: textContent));
-        Get.snackbar('Copied', 'Code has been copied to clipboard');
-      } catch (e) {
-        Get.snackbar(
-            'Error Occurred', 'Failed to copy message to clipboard: $e');
-      }
-    }
-
     // render code block
     return Column(
       children: [
@@ -49,7 +38,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
                     style: GoogleFonts.robotoMono()
                         .copyWith(color: Colors.grey[400])),
                 IconButton(
-                  onPressed: copyContent,
+                  onPressed: () => copyContent(textContent),
                   icon: const Icon(Icons.copy_rounded),
                   color: Colors.grey[400],
                 ),

@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/services/sharegpt_service.dart';
 import 'package:sydney_webui/services/sydney_service.dart';
-import 'package:sydney_webui/utils/url.dart';
+import 'package:sydney_webui/widgets/share_conversation_dialog.dart';
 
 class Controller extends GetxController {
   // Constants
@@ -300,7 +300,7 @@ class Controller extends GetxController {
     try {
       final id = await shareGptService.uploadConversation(messages);
       final url = 'https://shareg.pt/$id';
-      openUrl(url);
+      await Get.dialog(ShareConversationDialog(shareGptUrl: url));
     } catch (e) {
       Get.snackbar('Error occurred', 'Failed to share conversation: $e');
     }
