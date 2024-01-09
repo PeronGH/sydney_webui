@@ -41,9 +41,7 @@ class PromptInput extends StatelessWidget {
             prefixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: IconButton(
-                    onPressed: () => showDialog(
-                        context: context,
-                        builder: const ImageUploadDialog().build),
+                    onPressed: () => Get.dialog(const ImageUploadDialog()),
                     icon: Obx(() => Icon(
                         controller.sydneyService.imageUrl.isEmpty
                             ? Icons.add_photo_alternate_outlined

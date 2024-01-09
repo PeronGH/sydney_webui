@@ -18,10 +18,8 @@ class ChatPage extends StatelessWidget {
           title: const Text('Sydney Chat'),
           actions: [
             IconButton(
-                onPressed: () => showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: const SettingsDialog().build),
+                onPressed: () => Get.dialog(const SettingsDialog(),
+                    barrierDismissible: false),
                 icon: const Icon(Icons.settings))
           ],
         ),
