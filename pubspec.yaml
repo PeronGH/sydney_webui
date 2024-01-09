@@ -40,7 +40,6 @@ dependencies:
     pasteboard:
     image:
     flutter_markdown_latex:
-    url_launcher:
     share_plus:
 
 dev_dependencies:
