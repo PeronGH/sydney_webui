@@ -3,7 +3,7 @@
 
 import 'dart:html';
 
-Future<void> openUrl(String url) async {
+void openUrl(String url) {
   // Create the link with the file
   final anchor = AnchorElement(href: url)..target = 'blank';
 
