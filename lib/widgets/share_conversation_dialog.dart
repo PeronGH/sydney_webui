@@ -12,27 +12,19 @@ class ShareConversationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text("ShareGPT URL"),
-      content: SingleChildScrollView(
-        child: ListBody(children: [
-          SelectableText(shareGptUrl),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.copy_rounded),
-                onPressed: () => copyContent(shareGptUrl),
-                tooltip: "Copy URL",
-              ),
-              IconButton(
-                icon: const Icon(Icons.open_in_browser_rounded),
-                onPressed: () => openUrl(shareGptUrl),
-                tooltip: "Open URL",
-              )
-            ],
-          )
-        ]),
-      ),
+      content: SelectableText(shareGptUrl),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.copy_rounded),
+          onPressed: () => copyContent(shareGptUrl),
+          tooltip: "Copy URL",
+        ),
+        IconButton(
+          icon: const Icon(Icons.open_in_browser_rounded),
+          onPressed: () => openUrl(shareGptUrl),
+          tooltip: "Open URL",
+        )
+      ],
     );
   }
 }
