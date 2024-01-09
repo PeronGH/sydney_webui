@@ -33,7 +33,10 @@ class ShareConversationDialog extends StatelessWidget {
                   },
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [Icon(Icons.open_in_browser), Text('Open')],
+                    children: [
+                      Icon(Icons.open_in_browser_rounded),
+                      Text('Open')
+                    ],
                   )),
               const SizedBox(width: 8),
               ElevatedButton(
