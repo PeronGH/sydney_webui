@@ -22,7 +22,11 @@ class ShareConversationDialog extends StatelessWidget {
                   onPressed: () => copyContent(sharegptUrl),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [Icon(Icons.copy_rounded), Text('Copy')],
+                    children: [
+                      Icon(Icons.copy_rounded),
+                      SizedBox(width: 8),
+                      Text('Copy')
+                    ],
                   )),
               const SizedBox(width: 8),
               ElevatedButton(
@@ -31,6 +35,7 @@ class ShareConversationDialog extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.open_in_browser_rounded),
+                      SizedBox(width: 8),
                       Text('Open')
                     ],
                   )),
@@ -39,7 +44,11 @@ class ShareConversationDialog extends StatelessWidget {
                   onPressed: () => Share.share(sharegptUrl),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: [Icon(Icons.share_rounded), Text('Share')],
+                    children: [
+                      Icon(Icons.share_rounded),
+                      SizedBox(width: 8),
+                      Text('Share')
+                    ],
                   ))
             ],
           ),
