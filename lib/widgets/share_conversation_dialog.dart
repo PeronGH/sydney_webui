@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:sydney_webui/utils/copy.dart';
 import 'package:sydney_webui/utils/url.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -19,18 +19,14 @@ class ShareConversationDialog extends StatelessWidget {
           child: Row(
             children: [
               ElevatedButton(
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: sharegptUrl));
-                  },
+                  onPressed: () => copyContent(sharegptUrl),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [Icon(Icons.copy_rounded), Text('Copy')],
                   )),
               const SizedBox(width: 8),
               ElevatedButton(
-                  onPressed: () {
-                    openUrl(sharegptUrl);
-                  },
+                  onPressed: () => openUrl(sharegptUrl),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -40,9 +36,7 @@ class ShareConversationDialog extends StatelessWidget {
                   )),
               const SizedBox(width: 8),
               ElevatedButton(
-                  onPressed: () {
-                    Share.share(sharegptUrl);
-                  },
+                  onPressed: () => Share.share(sharegptUrl),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [Icon(Icons.share_rounded), Text('Share')],
