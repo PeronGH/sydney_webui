@@ -12,7 +12,7 @@ class ShareConversationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Share Conversation'),
-      content: Text(sharegptUrl),
+      content: SelectableText(sharegptUrl),
       actions: [
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
