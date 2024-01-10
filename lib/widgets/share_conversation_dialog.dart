@@ -45,7 +45,7 @@ class ShareConversationDialog extends StatelessWidget {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.share_rounded),
+                      Icon(Icons.share_outlined),
                       SizedBox(width: 8),
                       Text('Share')
                     ],
