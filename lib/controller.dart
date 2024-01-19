@@ -167,7 +167,7 @@ class Controller extends GetxController {
 
   // Helper methods
   void _onGenerateProgress(String type, String content) {
-    if (generatingType.value != type) {
+    if (generatingType.value != type || type == Message.typeLoading) {
       _saveGeneratedMessage();
     }
 
@@ -175,7 +175,8 @@ class Controller extends GetxController {
       // remove duplicated contents
       case Message.typeSuggestedResponses:
       case Message.typeSearchResult:
-        if (generatingContent.value.startsWith(content)) return;
+      case Message.typeExecutingTask:
+        if (generatingContent.value.endsWith(content)) return;
         break;
       // handle image generation
       case Message.typeGenerativeImage:

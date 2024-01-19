@@ -10,6 +10,7 @@ class Message {
   static const typeSuggestedResponses = 'suggested_responses';
   static const typeError = 'error';
   static const typeGenerativeImage = 'generative_image';
+  static const typeExecutingTask = "executing_task";
   static const typeTyping = 'typing'; // non-existent, only for UI
 
   static const messageRevoke = "Message revoke detected";
