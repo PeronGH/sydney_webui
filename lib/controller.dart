@@ -253,7 +253,7 @@ class Controller extends GetxController {
     messages.value = <Message>[
       Message(
           role: Message.roleSystem,
-          type: Message.typeAdditionalInstructions,
+          type: Message.typeInstructions,
           content: sydneyService.systemMessage)
     ];
   }
@@ -266,11 +266,11 @@ class Controller extends GetxController {
     if (isGenerating.value) return;
     if (messages.isEmpty) return;
     if (messages.first.role != Message.roleSystem) return;
-    if (messages.first.type != Message.typeAdditionalInstructions) return;
+    if (messages.first.type != Message.typeInstructions) return;
 
     messages.first = Message(
         role: Message.roleSystem,
-        type: Message.typeAdditionalInstructions,
+        type: Message.typeInstructions,
         content: sydneyService.systemMessage);
   }
 
