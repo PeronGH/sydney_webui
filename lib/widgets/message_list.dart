@@ -5,7 +5,7 @@ import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/widgets/message_tile.dart';
 
 class MessageList extends StatelessWidget {
-  const MessageList({Key? key}) : super(key: key);
+  const MessageList({super.key});
 
   @override
   Widget build(BuildContext context) {

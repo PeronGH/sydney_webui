@@ -9,7 +9,7 @@ import 'package:sydney_webui/widgets/settings_dialog.dart';
 class ChatPage extends StatelessWidget {
   final controller = Get.put(Controller());
 
-  ChatPage({Key? key}) : super(key: key);
+  ChatPage({super.key});
 
   @override
   Widget build(BuildContext context) {

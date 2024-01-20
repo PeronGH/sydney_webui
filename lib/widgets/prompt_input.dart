@@ -5,7 +5,7 @@ import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/widgets/image_upload_dialog.dart';
 
 class PromptInput extends StatelessWidget {
-  const PromptInput({Key? key}) : super(key: key);
+  const PromptInput({super.key});
 
   @override
   Widget build(BuildContext context) {

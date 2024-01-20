@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sydney_webui/controller.dart';
 
 class SettingsDialog extends StatelessWidget {
-  const SettingsDialog({Key? key}) : super(key: key);
+  const SettingsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

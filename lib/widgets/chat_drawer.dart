@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sydney_webui/controller.dart';
 
 class ChatDrawer extends StatelessWidget {
-  const ChatDrawer({Key? key}) : super(key: key);
+  const ChatDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {

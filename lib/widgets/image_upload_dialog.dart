@@ -5,7 +5,7 @@ import 'package:pasteboard/pasteboard.dart';
 import 'package:sydney_webui/controller.dart';
 
 class ImageUploadDialog extends StatelessWidget {
-  const ImageUploadDialog({Key? key}) : super(key: key);
+  const ImageUploadDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

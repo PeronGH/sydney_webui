@@ -13,11 +13,11 @@ import 'package:flutter_markdown_latex/flutter_markdown_latex.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({
-    Key? key,
+    super.key,
     required this.message,
     required this.index,
     this.isBeingGenerated = false,
-  }) : super(key: key);
+  });
 
   final Message message;
   final int index;
