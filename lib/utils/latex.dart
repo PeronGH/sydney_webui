@@ -58,10 +58,7 @@ class LatexNode extends SpanNode {
     final latex = Math.tex(
       content,
       mathStyle: MathStyle.text,
-      textStyle: style.copyWith(
-          color: Get.theme.brightness == Brightness.dark
-              ? Colors.white
-              : Colors.black),
+      textStyle: style,
       textScaleFactor: 1,
       onErrorFallback: (error) {
         return Text(
