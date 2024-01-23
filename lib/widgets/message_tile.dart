@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/copy.dart';
+import 'package:sydney_webui/utils/latex.dart';
 import 'package:sydney_webui/utils/url.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
@@ -129,6 +130,8 @@ class MessageTile extends StatelessWidget {
       children: [
         MarkdownBlock(
           data: message.content,
+          generator: MarkdownGenerator(
+              inlineSyntaxList: [LatexSyntax()], generators: [latexGenerator]),
           config: MarkdownConfig(configs: [
             PreConfig(
                 wrapper: (child, code, language) =>
