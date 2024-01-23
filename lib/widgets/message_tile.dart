@@ -6,9 +6,9 @@ import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/copy.dart';
 import 'package:sydney_webui/utils/latex.dart';
-import 'package:sydney_webui/utils/url.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
+import 'package:sydney_webui/widgets/image_table.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({
@@ -21,6 +21,15 @@ class MessageTile extends StatelessWidget {
   final Message message;
   final int index;
   final bool isBeingGenerated;
+
+  List<String> parseSuggestedResponses(String content) {
+    try {
+      final responses = jsonDecode(content) as List<dynamic>;
+      return responses.cast<String>().toList();
+    } catch (_) {
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +65,6 @@ class MessageTile extends StatelessWidget {
             _ => []
           };
 
-    List<String> parseSuggestedResponses(String content) {
-      try {
-        final responses = jsonDecode(content) as List<dynamic>;
-        return responses.cast<String>().toList();
-      } catch (_) {
-        return [];
-      }
-    }
-
     final List<Widget> typeSpecificContent = switch (message.type) {
       Message.typeSuggestedResponses => [
           SingleChildScrollView(
@@ -82,27 +82,7 @@ class MessageTile extends StatelessWidget {
     };
 
     final images = message.imageUrls != null && message.imageUrls!.isNotEmpty
-        ? [
-            SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: message.imageUrls!
-                      .map((url) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 256),
-                              child: Column(
-                                children: [
-                                  Image.network(url),
-                                  const SizedBox(height: 8),
-                                  ElevatedButton(
-                                      onPressed: () => openUrl(url),
-                                      child: const Text('View'))
-                                ],
-                              ))))
-                      .toList(),
-                ))
-          ]
+        ? [ImageTable.fromImageUrls(message.imageUrls!)]
         : [];
 
     return ExpansionTile(
@@ -137,7 +117,6 @@ class MessageTile extends StatelessWidget {
                 wrapper: (child, code, language) =>
                     CodeElement(textContent: code, language: language)),
             CodeConfig(style: GoogleFonts.robotoMono()),
-            const LinkConfig(onTap: openUrl)
           ]),
         ),
         ...typeSpecificContent,
