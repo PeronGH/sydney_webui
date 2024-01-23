@@ -119,13 +119,22 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_highlight:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_highlight
       sha256: "7b96333867aa07e122e245c033b8ad622e4e3a42a1a2372cbb098a2541d8782c"
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
+  flutter_highlighter:
+    dependency: "direct main"
+    description:
+      path: flutter_highlighter
+      ref: master
+      resolved-ref: "9a2b566f0a59fcd414ff5031ccbf0ff1d101f962"
+      url: "https://github.com/predatorx7/highlight.git"
+    source: git
+    version: "0.1.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -200,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
+  highlighter:
+    dependency: transitive
+    description:
+      name: highlighter
+      sha256: "92180c72b9da8758e1acf39a45aa305a97dcfe2fdc8f3d1d2947c23f2772bfbc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   http:
     dependency: transitive
     description:

@@ -39,7 +39,11 @@ dependencies:
     share_plus:
     markdown:
     markdown_widget:
-    flutter_highlight:
+    flutter_highlighter:
+        git:
+            url: https://github.com/predatorx7/highlight.git
+            path: flutter_highlighter
+            ref: master
     flutter_math_fork:
 
 dev_dependencies:
