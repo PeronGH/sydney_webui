@@ -33,14 +33,13 @@ dependencies:
     get:
     get_storage:
     file_picker: ^6.1.1
-    flutter_markdown:
     google_fonts:
-    markdown:
-    flutter_highlighter:
     pasteboard:
     image:
-    flutter_markdown_latex:
     share_plus:
+    markdown:
+    markdown_widget:
+    flutter_highlight:
 
 dev_dependencies:
     flutter_test:

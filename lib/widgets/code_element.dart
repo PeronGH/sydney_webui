@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_highlighter/flutter_highlighter.dart';
-import 'package:flutter_highlighter/themes/atom-one-dark.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown/markdown.dart' as md;
+import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/themes/atom-one-dark.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sydney_webui/utils/copy.dart';
 import 'package:sydney_webui/utils/string.dart';
 
-class CodeElementBuilder extends MarkdownElementBuilder {
+class CodeElement extends StatelessWidget {
+  const CodeElement({super.key, this.language = "", this.textContent = ""});
+
+  final String language;
+  final String textContent;
+
   @override
-  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
-    final textContent = element.textContent;
-
-    if (!textContent.endsWith("\n")) {
-      // handle inline code
-      return Text("`$textContent`", style: GoogleFonts.robotoMono());
-    }
-
-    var language = '';
-
-    if (element.attributes['class']?.startsWith('language-') ?? false) {
-      String lg = element.attributes['class'] as String;
-      language = lg.substring('language-'.length);
-    }
-
-    // render code block
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
@@ -61,7 +49,7 @@ class CodeElementBuilder extends MarkdownElementBuilder {
               theme: atomOneDarkTheme,
 
               // Specify padding
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.all(16),
 
               // Specify text style
               textStyle: GoogleFonts.robotoMono(),

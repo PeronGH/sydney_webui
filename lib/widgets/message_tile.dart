@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart' as md;
 import 'package:get/get.dart';
-import 'package:markdown/markdown.dart' as md;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sydney_webui/controller.dart';
 import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/copy.dart';
-import 'package:sydney_webui/utils/latex.dart';
 import 'package:sydney_webui/utils/url.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
-import 'package:flutter_markdown_latex/flutter_markdown_latex.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({
@@ -129,30 +127,16 @@ class MessageTile extends StatelessWidget {
       expandedAlignment: Alignment.topLeft,
       childrenPadding: const EdgeInsets.symmetric(horizontal: 16),
       children: [
-        md.MarkdownBody(
-            selectable: true,
-            data: message.content,
-            softLineBreak: true,
-            styleSheet: md.MarkdownStyleSheet(
-                blockquoteDecoration: BoxDecoration(
-              color: Get.theme.colorScheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(8),
-            )),
-            extensionSet: md.ExtensionSet([
-              ...md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-              BingLatexBlockSyntax(),
-            ], [
-              ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
-              LatexInlineSyntax(),
-              BingLatexInlineSyntax()
-            ]),
-            onTapLink: (text, href, title) {
-              if (href != null) openUrl(href);
-            },
-            builders: {
-              'code': CodeElementBuilder(),
-              'latex': LatexElementBuilder(textStyle: Get.textTheme.bodyLarge),
-            }),
+        MarkdownBlock(
+          data: message.content,
+          config: MarkdownConfig(configs: [
+            PreConfig(
+                wrapper: (child, code, language) =>
+                    CodeElement(textContent: code, language: language)),
+            CodeConfig(style: GoogleFonts.robotoMono()),
+            const LinkConfig(onTap: openUrl)
+          ]),
+        ),
         ...typeSpecificContent,
         ...images
       ],
