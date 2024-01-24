@@ -1,7 +1,6 @@
 // Copied from https://github.com/asjqkkkk/markdown_widget/blob/dev/example/lib/markdown_custom/latex.dart
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:markdown/markdown.dart' as m;
