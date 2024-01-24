@@ -85,7 +85,7 @@ class Message {
 
 extension ToContext on List<Message> {
   String toContext() {
-    if (isEmpty) return '<EMPTY>';
+    if (isEmpty) return '{}';
 
     final context = map((message) {
       return switch (message) {
@@ -117,6 +117,6 @@ extension ToContext on List<Message> {
       };
     }).where((msg) => msg.isNotEmpty).join('\n\n');
 
-    return '<EMPTY>\n\n$context';
+    return '{}\n```\n\n$context';
   }
 }
