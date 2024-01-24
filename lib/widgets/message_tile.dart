@@ -7,6 +7,7 @@ import 'package:sydney_webui/models/message.dart';
 import 'package:sydney_webui/utils/copy.dart';
 import 'package:sydney_webui/utils/latex.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:sydney_webui/utils/url.dart';
 import 'package:sydney_webui/widgets/code_element.dart';
 import 'package:sydney_webui/widgets/image_table.dart';
 
@@ -118,6 +119,8 @@ class MessageTile extends StatelessWidget {
                 wrapper: (child, code, language) =>
                     CodeElement(textContent: code, language: language)),
             CodeConfig(style: GoogleFonts.robotoMono()),
+            const LinkConfig(
+                onTap: openUrl, style: TextStyle(color: Colors.blue))
           ]),
         ),
         ...typeSpecificContent,

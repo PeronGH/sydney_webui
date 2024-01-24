@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:sydney_webui/utils/url.dart';
 
 class ImageTable extends StatelessWidget {
   const ImageTable({super.key, required this.tableContent});
@@ -29,6 +30,11 @@ class ImageTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MarkdownBlock(data: tableContent);
+    return MarkdownBlock(
+      data: tableContent,
+      config: MarkdownConfig(configs: [
+        const LinkConfig(onTap: openUrl, style: TextStyle(color: Colors.blue))
+      ]),
+    );
   }
 }
