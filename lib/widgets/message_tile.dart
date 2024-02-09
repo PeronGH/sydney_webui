@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_highlighter/themes/atom-one-dark.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sydney_webui/controller.dart';
@@ -8,7 +9,6 @@ import 'package:sydney_webui/utils/copy.dart';
 import 'package:sydney_webui/utils/latex.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:sydney_webui/utils/url.dart';
-import 'package:sydney_webui/widgets/code_element.dart';
 import 'package:sydney_webui/widgets/image_table.dart';
 
 class MessageTile extends StatelessWidget {
@@ -116,8 +116,12 @@ class MessageTile extends StatelessWidget {
               inlineSyntaxList: [LatexSyntax()], generators: [latexGenerator]),
           config: MarkdownConfig(configs: [
             PreConfig(
-                wrapper: (child, code, language) =>
-                    CodeElement(textContent: code, language: language)),
+                decoration: const BoxDecoration(
+                    color: Color(0xff282c34),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                theme: atomOneDarkTheme,
+                textStyle: GoogleFonts.robotoMono(),
+                styleNotMatched: GoogleFonts.robotoMono()),
             CodeConfig(style: GoogleFonts.robotoMono()),
             const LinkConfig(
                 onTap: openUrl, style: TextStyle(color: Colors.blue))
