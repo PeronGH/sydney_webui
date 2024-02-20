@@ -302,7 +302,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "6be41bbf29b5e6a84f6458e91cf687fa0e7e1ecc"
+      resolved-ref: "0ebe381c980be85b263aa6873c6b16d17cc1d6ea"
       url: "https://github.com/PeronGH/markdown_widget.git"
     source: git
     version: "2.3.2+3"
