@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_highlighter/themes/atom-one-dark.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -116,12 +117,42 @@ class MessageTile extends StatelessWidget {
               inlineSyntaxList: [LatexSyntax()], generators: [latexGenerator]),
           config: MarkdownConfig(configs: [
             PreConfig(
-                decoration: const BoxDecoration(
-                    color: Color(0xff282c34),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                theme: atomOneDarkTheme,
-                textStyle: GoogleFonts.robotoMono(),
-                styleNotMatched: GoogleFonts.robotoMono()),
+              margin: const EdgeInsets.all(0),
+              decoration: const BoxDecoration(
+                  color: Color(0xff282c34),
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(8.0))),
+              theme: atomOneDarkTheme,
+              textStyle: GoogleFonts.robotoMono(),
+              styleNotMatched: GoogleFonts.robotoMono(),
+              wrapper: (child, code, language) => Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[900],
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(8.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(language.isEmpty ? 'code' : language,
+                              style: GoogleFonts.robotoMono()
+                                  .copyWith(color: Colors.grey[400])),
+                          IconButton(
+                            onPressed: () => copyContent(code),
+                            icon: const Icon(Icons.copy_rounded),
+                            color: Colors.grey[400],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  child
+                ],
+              ),
+            ),
             CodeConfig(style: GoogleFonts.robotoMono()),
             const LinkConfig(
                 onTap: openUrl, style: TextStyle(color: Colors.blue))
