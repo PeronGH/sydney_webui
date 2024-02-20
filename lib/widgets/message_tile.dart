@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_highlighter/flutter_highlighter.dart';
 import 'package:flutter_highlighter/themes/atom-one-dark.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -117,22 +118,14 @@ class MessageTile extends StatelessWidget {
               inlineSyntaxList: [LatexSyntax()], generators: [latexGenerator]),
           config: MarkdownConfig(configs: [
             PreConfig(
-              margin: const EdgeInsets.all(0),
-              decoration: const BoxDecoration(
-                  color: Color(0xff282c34),
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(8.0))),
-              theme: atomOneDarkTheme,
-              textStyle: GoogleFonts.robotoMono(),
-              styleNotMatched: GoogleFonts.robotoMono(),
-              wrapper: (child, code, language) => Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[900],
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(8.0))),
-                    child: Padding(
+              builder: (code, language) => Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: BorderRadius.circular(8)),
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
+                    Padding(
                       padding: const EdgeInsets.only(left: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,9 +141,18 @@ class MessageTile extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
-                  child
-                ],
+                    SizedBox(
+                        width: double.infinity,
+                        child: HighlightView(
+                          code,
+                          language: language,
+                          theme: atomOneDarkTheme,
+                          textStyle: GoogleFonts.robotoMono(),
+                          tabSize: 4,
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        ))
+                  ],
+                ),
               ),
             ),
             CodeConfig(style: GoogleFonts.robotoMono()),
