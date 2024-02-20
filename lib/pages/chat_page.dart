@@ -17,19 +17,31 @@ class ChatPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Sydney Chat'),
           actions: [
+            Obx(() => IconButton(
+                  icon: const Icon(Icons.add_box_outlined),
+                  onPressed: controller.isGenerating.value
+                      ? null
+                      : () {
+                          controller.newConversation();
+                          Get.back();
+                        },
+                )),
+            const SizedBox(width: 8),
             IconButton(
-                onPressed: () => Get.dialog(const SettingsDialog(),
-                    barrierDismissible: false),
-                icon: const Icon(Icons.settings))
+              icon: const Icon(Icons.settings),
+              onPressed: () =>
+                  Get.dialog(const SettingsDialog(), barrierDismissible: false),
+            ),
+            const SizedBox(width: 8)
           ],
         ),
         drawer: const ChatDrawer(),
         body: const Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16),
             child: Column(
               children: [
                 MessageList(),
-                SizedBox(height: 16.0),
+                SizedBox(height: 16),
                 PromptInput(),
               ],
             )));
