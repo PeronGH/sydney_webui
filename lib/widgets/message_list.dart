@@ -45,6 +45,7 @@ class MessageList extends StatelessWidget {
                     // Render normal message
                     final message = controller.messages[index];
                     messageTile = MessageTile(
+                      key: ObjectKey(message),
                       index: index,
                       message: message,
                     );

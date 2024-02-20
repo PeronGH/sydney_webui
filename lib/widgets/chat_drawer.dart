@@ -53,6 +53,7 @@ class ChatDrawer extends StatelessWidget {
                   final conversationId = conversationIds[index];
 
                   return ListTile(
+                      key: ValueKey(conversationId),
                       leading: const Icon(Icons.chat),
                       selected: conversationId ==
                           controller.currentConversationId.value,
