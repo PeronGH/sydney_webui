@@ -39,6 +39,9 @@ dependencies:
     share_plus:
     markdown:
     markdown_widget:
+        git:
+            url: https://github.com/PeronGH/markdown_widget.git
+            ref: master
     flutter_highlighter:
         git:
             url: https://github.com/predatorx7/highlight.git
