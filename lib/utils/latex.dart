@@ -13,7 +13,7 @@ SpanNodeGeneratorWithTag latexGenerator = SpanNodeGeneratorWithTag(
 const _latexTag = 'latex';
 
 class LatexSyntax extends m.InlineSyntax {
-  LatexSyntax() : super(r'(\$\$[\s\S]+\$\$)|(\$.+?\$)');
+  LatexSyntax() : super(r'(\$\$[\s\S]+?\$\$)|(\\\(.+?\\\))');
 
   @override
   bool onMatch(m.InlineParser parser, Match match) {
@@ -21,17 +21,18 @@ class LatexSyntax extends m.InlineSyntax {
     final matchValue = input.substring(match.start, match.end);
     String content = '';
     bool isInline = true;
-    const blockSyntax = '\$\$';
-    const inlineSyntax = '\$';
+    const blockSyntax = r'$$';
+    const inlineSyntaxStart = r'\(';
+    const inlineSyntaxEnd = r'\)';
     if (matchValue.startsWith(blockSyntax) &&
         matchValue.endsWith(blockSyntax) &&
         (matchValue != blockSyntax)) {
       content = matchValue.substring(2, matchValue.length - 2);
       isInline = false;
-    } else if (matchValue.startsWith(inlineSyntax) &&
-        matchValue.endsWith(inlineSyntax) &&
-        matchValue != inlineSyntax) {
-      content = matchValue.substring(1, matchValue.length - 1);
+    } else if (matchValue.startsWith(inlineSyntaxStart) &&
+        matchValue.endsWith(inlineSyntaxEnd) &&
+        matchValue != inlineSyntaxStart) {
+      content = matchValue.substring(2, matchValue.length - 2);
     }
     m.Element el = m.Element.text(_latexTag, matchValue);
     el.attributes['content'] = content;
