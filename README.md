@@ -8,8 +8,10 @@ Web UI for Sydney (Bing Chat).
 
 2. `flutter run -d chrome`.
 
-## Deploy to Cloudflare Pages
+## Deploy to Serverless Platforms
+
+The following build command can be used
 
 ```bash
-peanut -b production --web-renderer canvaskit --extra-args "--dart-define-from-file=config.json" && git push origin production:production
+if cd flutter; then git pull && cd .. ; else git clone https://github.com/flutter/flutter.git; fi && ls && flutter/bin/flutter doctor && flutter/bin/flutter clean && flutter/bin/flutter config --enable-web && flutter/bin/flutter build web --release --web-renderer canvaskit
 ```
